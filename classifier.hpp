@@ -9,8 +9,7 @@
 #include "simpleClassifier.hpp"
 
 
-std::vector<SimpleClassifier> trainWeakClassifier(
-    std::vector<Image> input, double alpha, double p);
+std::vector<SimpleClassifier> trainWeakClassifier(std::vector<Image> input, double alpha, double p);
 
 
 

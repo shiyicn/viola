@@ -18,6 +18,7 @@ class Image {
     std::vector<std::vector<int> > calIntegral(std::vector<std::vector<int> > image);
     void calFeatureVector(std::vector<std::vector<int> > integral, int incr, int size);
     
+    
 };
 
 #endif
