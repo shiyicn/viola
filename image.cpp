@@ -1,5 +1,6 @@
 #include "image.hpp"
 
+
 std::vector<std::vector<int> > Image::calIntegral(std::vector<std::vector<int> > image){
     int t;
     std::vector<std::vector<int> > res;
