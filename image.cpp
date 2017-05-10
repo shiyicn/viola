@@ -1,10 +1,10 @@
-#include "integral.hpp"
+#include "image.hpp"
 
-std::vector<std::vector<double> > calIntegral(std::vector<std::vector<double> > image){
-    double t;
-    std::vector<std::vector<double> > res;
+std::vector<std::vector<int> > Image::calIntegral(std::vector<std::vector<int> > image){
+    int t;
+    std::vector<std::vector<int> > res;
     for (int i = 0; i < image.size(); i+=1) {
-        std::vector<double> row;
+        std::vector<int> row;
         for (int j = 0; j < image[i].size(); j+=1){
             t = image[i][j];
             if (j > 0) t += res[i][j-1];
