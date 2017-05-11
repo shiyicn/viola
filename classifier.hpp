@@ -7,9 +7,7 @@
 
 #include "image.hpp"
 
-std::vector<std::pair<double, double> > trainWeakClassifier(
-    std::vector<Image> input, double alpha, double p);
-
-
+vector<pair<double, double> > trainWeakClassifier(
+    vector<Image> input, double alpha, double p);
 
 #endif
