@@ -21,6 +21,9 @@ int main() {
 
     Image img = Image(data, 1);
     vector<vector<int> > integral = img.calIntegral();
+    
+    cout<<"built image vector\n";
+
 
     Shape s = {8, 8};
     Position p = {2, 2};

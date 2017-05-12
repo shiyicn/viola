@@ -17,7 +17,6 @@ class Image {
         Image(string fname, int c);
         Image(vector<vector<int> > &data, int c);
         vector<vector<int> > calIntegral();
-    
 };
 
 #endif
