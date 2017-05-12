@@ -4,18 +4,20 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include "util.hpp"
 
 typedef unsigned short ushort;
+
 
 class Feature{
 
     ushort type;    //0,1,2,3
-    ushort width,height;   //size
-    ushort x,y;       //position 
+    Shape shape;   //size,
+    Position position;       //position 
     int value;              //the value caculated 
 
     public:
-        Feature( ushort type, ushort w, ushort h, ushort x, ushort y,std::vector<std::vector<int> >integral);
+        Feature( ushort type, Shape s,Position p, &std::vector<std::vector<int> >integral);
 };
 
 #endif
