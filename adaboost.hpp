@@ -5,7 +5,9 @@
 #include <vector>
 #include <cstdlib>
 
-std::vector<std::pair<double, int> > strongClassifer(
-    std::vector<std::pair<double, double> > h, int N, std::vector<std::vector<int> > validation);
+using namespace std;
+
+vector<pair<double, int> > strongClassifer(
+    vector<pair<double, double> > h, int N, vector<vector<int> > validation);
 
 #endif

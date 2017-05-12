@@ -7,20 +7,21 @@
 #include <cstdlib>
 #include "feature.hpp"
 
+using namespace std;
+
 
 class Image {
  
-    std::vector<std::vector<int> > data;
-    std::vector<std::vector<int> > integral;
+    vector<vector<int> > data;
+    vector<vector<int> > integral;
     //std::vector<Feature> featureVector; 
     int c;
 
-    Image(std::string fname, int c);
+    Image(string fname, int c);
 
-    std::vector<std::vector<int> > calIntegral(std::vector<std::vector<int> > image);
-    void calFeatureVector(std::vector<std::vector<int> > integral, int incr, int size);
-    
-    
+    vector<vector<int> > calIntegral(vector<vector<int> > image);
+    vector<Feature> calFeatureVector(vector<vector<int> > integral, int incr, int size);
+  
 };
 
 #endif
