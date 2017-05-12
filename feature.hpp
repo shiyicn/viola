@@ -8,16 +8,16 @@
 
 typedef unsigned short ushort;
 
-
 class Feature{
 
     ushort type;    //0,1,2,3
     Shape shape;   //size,
-    Position position;       //position 
-    int value;              //the value caculated 
+    Position position;       //position
+    int value;              //the value caculated
 
     public:
         Feature( ushort type, Shape s,Position p, std::vector<std::vector<int> >&integral);
+        int getValue();
 };
 
 #endif

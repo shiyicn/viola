@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include "feature.hpp"
 
 using namespace std;
 
@@ -17,11 +16,14 @@ class Image {
     //std::vector<Feature> featureVector; 
     int c;
 
-    Image(string fname, int c);
+    //Image(string fname, int c);
 
-    vector<vector<int> > calIntegral(vector<vector<int> > image);
-    vector<Feature> calFeatureVector(vector<vector<int> > integral, int incr, int size);
-  
+    public:
+        Image(std::vector<std::vector<int> > &data, int c);
+
+        vector<vector<int> > calIntegral();
+        //vector<Feature> calFeatureVector(vector<vector<int> > integral, int incr, int size);
+    
 };
 
 #endif

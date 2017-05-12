@@ -4,10 +4,14 @@ using namespace std;
 
 
 int featureCal(int type, Shape s, Position p,  vector<vector<int> > &integral);
-int featureAcal(Shape s, Position p,  vector<vector<int> > &integral);
-int featureBcal(Shape s, Position p,  vector<vector<int> > &integral);
-int featureCcal(Shape s, Position p,  vector<vector<int> > &integral);
+int featureAcal(Shape s, Position p, vector<vector<int> > &integral);
+int featureBcal(Shape s, Position p, vector<vector<int> > &integral);
+int featureCcal(Shape s, Position p, vector<vector<int> > &integral);
 int featureDcal(Shape s, Position p, vector<vector<int> > &integral);
+
+int Feature::getValue() {
+    return value;
+}
 
 Feature::Feature(ushort type,Shape s,Position p, vector<vector<int> > &integral){
     this->type = type;
@@ -32,6 +36,7 @@ int featureCal(int type, Shape s,Position p,  vector<vector<int> > &integral){
             return featureDcal(s,p,integral);
             break;
     default:
+        exit(-1);
         break;
     }
 }
