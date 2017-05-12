@@ -17,7 +17,7 @@ class Feature{
     int value;              //the value caculated 
 
     public:
-        Feature( ushort type, Shape s,Position p, &std::vector<std::vector<int> >integral);
+        Feature( ushort type, Shape s,Position p, std::vector<std::vector<int> >&integral);
 };
 
 #endif
