@@ -23,4 +23,3 @@ vector<vector<int> > Image::calIntegral(){
     }
     return res;
 }
-

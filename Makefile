@@ -1,16 +1,16 @@
 all: main
 
-main: image.o feature.o
-	gcc -g -Wall -o main image.o feature.o
+main: image.o feature.o main.o
+	g++ -g -Wall -o main main.o image.o feature.o
+
+main.o: main.cpp
+	g++ -c main.cpp
 
 feature.o: feature.cpp util.hpp feature.hpp
-	gcc -c feature.cpp
+	g++ -c feature.cpp
 
 image.o: image.cpp image.hpp
-	gcc -c image.cpp
+	g++ -c image.cpp
 
 clean:
 	rm main *.o
-	
-
-
