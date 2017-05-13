@@ -28,18 +28,29 @@ void genDistFeature(){
 
     //load images from directory "dir"
     vector<Image> images = load(dir);
-
+    //get images amount
     ushort rows = images.size();
 
     // the root decides how may rows will be handled by each of the
     // processors, and MPI_Scatters its decision
-    unsigned long sendbuf[numtasks];
+    unsigned int sendbuf[numtasks];
+    ushort interval = rows/numtasks;
+    if (row%numtasks != 0) interval += 1;
     for(int i=0; i<numtasks-1; i+=1){
-        sendbuf[i] = rows/numtasks;
+        sendbuf[i] = i * interval;
     }
-    sendbuf[numtasks-1] = e - (rows/numtasks)*(numtasks-1);
 
-    MPI_Scatter(sendbuf, 1, MPI_UNSIGNED_LONG, &elocal, 1, MPI_UNSIGNED_LONG, 0, MPI_COMM_WORLD);
+    int start = -1;
+    int end = -1;
+
+    //send start index for every processor
+    MPI_Scatter(sendbuf, 1, MPI_INT, &start, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+    end = start + min(interval, rows - start);
+    for (int i=0; i<images.size(); i+=1){
+        //cal features from start to end
+        images[i].calFeatureByLines(start, end);
+    }
 }
 
 SimpleClassifier::SimpleClassifier(double w_0,double w_1){
