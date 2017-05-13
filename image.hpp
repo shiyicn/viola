@@ -26,6 +26,7 @@ class Image {
         int getImageClass ();
         vector<vector<int> > &getImageIntegral();
         vector<Feature> &getFeatureVector();
+        void calFeatureByLines(int start, int end);
 
 };
 
