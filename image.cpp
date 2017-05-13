@@ -71,7 +71,7 @@ void Image::calFeatureByLines(int start, int end) {
             /*cal all feature vectors 
             *       {(x, y); (w, h)} such that "start <= x < end"
             */
-            for (int x = start; x+w<end; x += incrementP){
+            for (int x = start; x+w<imageWidth && x<end; x += incrementP){
                 for (int y = 0; y+h<imageHeight; y += incrementP){
                     Position p = {x, y};
                     Shape s = {w, h};
