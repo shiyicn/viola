@@ -10,12 +10,19 @@ typedef unsigned short ushort;
 class SimpleClassifier{
 
     double w_0,w_1;
-    ushort width,height;
-    ushort x,y;
+    Type type;
+    Shape shape;
+    Position position;
+    
 
     public:
         SimpleClassifier(double w_0,double w_1);
-        int calResult(Feature f);
-}
+        short predict(Feature &f);
+        double getW0();
+        double getW1();
+        Type getType();
+        Shape getShape();
+        Position getPosition();
+};
 
 #endif

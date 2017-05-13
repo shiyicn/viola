@@ -20,14 +20,14 @@ int main() {
     cout<<"built image vector\n";
 
     Image img = Image(data, 1);
-    vector<vector<int> > integral = img.calIntegral();
+    img.calIntegral();
     
     cout<<"built image vector\n";
 
 
     Shape s = {8, 8};
-    Position p = {2, 2};
-    Feature f = Feature(1, s, p, integral);
+    Position p = {0, 0};
+    Feature f = Feature(A, s, p, img.getImageIntegral());
 
     cout<<"feature value : "<<f.getValue()<<endl;
 

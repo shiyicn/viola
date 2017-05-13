@@ -3,36 +3,48 @@
 using namespace std;
 
 
-int featureCal(int type, Shape s, Position p,  vector<vector<int> > &integral);
-int featureAcal(Shape s, Position p, vector<vector<int> > &integral);
-int featureBcal(Shape s, Position p, vector<vector<int> > &integral);
-int featureCcal(Shape s, Position p, vector<vector<int> > &integral);
-int featureDcal(Shape s, Position p, vector<vector<int> > &integral);
+int featureCal(Type type, Shape s, Position p,  const vector<vector<int> > &integral);
+int featureAcal(Shape s, Position p, const vector<vector<int> > &integral);
+int featureBcal(Shape s, Position p, const vector<vector<int> > &integral);
+int featureCcal(Shape s, Position p, const vector<vector<int> > &integral);
+int featureDcal(Shape s, Position p, const vector<vector<int> > &integral);
 
 int Feature::getValue() {
     return value;
 }
 
-Feature::Feature(ushort type,Shape s,Position p, vector<vector<int> > &integral){
+Type Feature::getType(){
+    return this->type;
+}
+
+Shape Feature::getShape(){
+    return this->shape;
+}
+
+Position Feature::getPosition(){
+    return this->position;
+}
+
+Feature::Feature(Type type,Shape s,Position p, const vector<vector<int> >& integral){
     this->type = type;
     this->shape = s;
     this->position = p;
     this->value = featureCal(type,s,p,integral);
 }
 
-int featureCal(int type, Shape s,Position p,  vector<vector<int> > &integral){
+int featureCal(Type type, Shape s,Position p,  const vector<vector<int> > &integral){
     switch (type)
     {
-        case 1: 
+        case A: 
             return featureAcal(s,p,integral);
             break;
-        case 2:
+        case B:
             return featureBcal(s,p,integral);
             break;
-        case 3:
+        case C:
             return featureCcal(s,p,integral);
             break;
-        case 4:
+        case D:
             return featureDcal(s,p,integral);
             break;
     default:
@@ -41,7 +53,7 @@ int featureCal(int type, Shape s,Position p,  vector<vector<int> > &integral){
     }
 }
 
-int featureAcal(Shape s, Position p, vector<vector<int> > &integral){
+int featureAcal(Shape s, Position p, const vector<vector<int> > &integral){
 
     int bottomRight = integral[p.x + s.width-1][p.y + s.height-1];        //bottom-left point of black part
     int bottomCenter = integral[p.x + s.width/2-1][p.y + s.height-1];    //bottom-center point 
@@ -61,7 +73,7 @@ int featureAcal(Shape s, Position p, vector<vector<int> > &integral){
     return wholePart - 2*whitePart;
 }
 
-int featureBcal(Shape s, Position p, vector<vector<int> > &integral){
+int featureBcal(Shape s, Position p, const vector<vector<int> > &integral){
 
     int bottomRight = integral[p.x + s.width - 1][p.y + s.height - 1];
     int bottomLeft = (p.x==0)?0:integral[p.x - 1][p.y + s.height - 1];
@@ -79,7 +91,7 @@ int featureBcal(Shape s, Position p, vector<vector<int> > &integral){
     return wholePart - 2*whitePart;
 }
 
-int featureCcal(Shape s, Position p, vector<vector<int> >&integral){
+int featureCcal(Shape s, Position p, const vector<vector<int> >&integral){
 
     int bottomRight = integral[p.x + s.width - 1][p.y + s.height - 1];
     int bottomBRight = integral[p.x + s.width*0.75 - 1][p.y + s.height - 1];    // the bottom-right point of the black part
@@ -103,7 +115,7 @@ int featureCcal(Shape s, Position p, vector<vector<int> >&integral){
     return wholePart - 2*whitePart1 - 2*whitePart2;
 }
 
-int featureDcal(Shape s, Position p, vector<vector<int> > &integral){
+int featureDcal(Shape s, Position p, const vector<vector<int> > &integral){
     Shape part1 = {s.width,s.height/2};
     Shape part2 = {s.width,s.height/2};
     Position p2 = {p.x,p.y+s.height/2};
