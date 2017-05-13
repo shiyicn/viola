@@ -1,11 +1,13 @@
 #include "image.hpp"
+#include "util.hpp"
 
 using namespace std;
 typedef unsigned short ushort;
 
 const ushort widthInit = 8;
 const ushort heightInit = 8;
-const ushort increment = 4;
+const ushort incrementP = 4;
+const ushort incrementS = 4;
 
 Image::Image(vector<vector<int> > &data, int c){
     this->data = data;
@@ -29,18 +31,39 @@ void Image::calIntegral(){
 }
 
 void Image::calFeatureVector(){
-    int imageHeight = this->data.size();
-    int imageWidth = this->data[0].size();
-    for(ushort hj =0;(heightInit+4*hj)<=imageHeight;hj++){
-        for(ushort wi=0;(widthInit+4*wi)<=imageWidth;wi++){                    //size of rectangle : (widthInit+4*wi)*(heightInit+4*hj)
+    ushort imageHeight = this->data.size();
+    ushort imageWidth = this->data[0].size();
+    ushort recWidth = widthInit;
+    ushort recHeight = heightInit;
 
+    for(ushort hj =0;recHeight<=imageHeight;hj++){
+        recWidth = widthInit;
+        for(ushort wi=0;recWidth<=imageWidth;wi++){                    //size of rectangle : (widthInit+4*wi)*(heightInit+4*hj)
+            ushort x = 0;
+            ushort y = 0;
+            for(ushort i=0;(y+recHeight)<=imageHeight;i++){
+                x = 0;
+                for(ushort j=0;(x+recWidth)<=imageWidth;j++){
+                    Position p = {x,y};
+                    Shape s = {recWidth,recHeight};
+                    this->featureVector.push_back(Feature(A,s,p,this->integral));
+                    this->featureVector.push_back(Feature(B,s,p,this->integral));
+                    this->featureVector.push_back(Feature(C,s,p,this->integral));
+                    this->featureVector.push_back(Feature(D,s,p,this->integral));
+                    x +=incrementP;
+                }
+                y +=incrementP;
+            }
+            recWidth += incrementS;
         }
+        recHeight += incrementS; 
     }
 
 }
 
 void Image::initialize(){
-
+    this->calIntegral();
+    this->calFeatureVector();
 }
 
 vector<vector<int> > & Image::getImageData(){

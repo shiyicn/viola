@@ -9,7 +9,7 @@ main.o: main.cpp
 feature.o: feature.cpp util.hpp feature.hpp
 	g++ -c feature.cpp
 
-image.o: image.cpp image.hpp
+image.o: image.cpp image.hpp util.hpp
 	g++ -c image.cpp
 
 clean:
