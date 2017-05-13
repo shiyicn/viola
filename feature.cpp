@@ -98,14 +98,14 @@ int featureCcal(Shape s, Position p, const vector<vector<int> >&integral){
     int bottomBLeft = integral[p.x + s.width*0.25 - 1][p.y + s.height - 1];
     int bottomLeft = (p.x==0)?0:integral[p.x - 1][p.y + s.height - 1];
 
-    int upRight = integral[p.x + s.width - 1][p.y - 1];
+    int upRight = (p.y==0)?0:integral[p.x + s.width - 1][p.y - 1];
     int upBRight = (p.y==0)?0:integral[p.x + s.width*0.75 - 1][p.y - 1];
     int upBLeft = (p.y==0)?0:integral[p.x + s.width*0.25 - 1][p.y - 1];
     int upLeft = (p.x==0||p.y==0)?0:integral[p.x - 1][p.y - 1];
 
     int wholePart = bottomRight - bottomLeft;
     wholePart -= (upRight - upLeft);
-
+    
     int whitePart1 = bottomRight - bottomBRight;
     whitePart1 -= (upRight - upBRight);
 
