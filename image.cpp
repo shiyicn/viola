@@ -90,7 +90,7 @@ void Image::calFeatureByLines(int start, int end) {
 
 void Image::initialize(){
     this->calIntegral();
-    this->calFeatureVector();
+    //this->calFeatureVector();
 }
 
 vector<vector<int> > & Image::getImageData(){
