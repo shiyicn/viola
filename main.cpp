@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
 		images[i].calIntegral();
 		images[i].calFeatureByLines(start, end);
 	}
-	sum = images[0].getFeatureVector().size();
+	int sum = images[0].getFeatureVector().size();
 	
 	MPI_Reduce(&sum, &sz, 1, MPI_INT,
                MPI_SUM, root, MPI_COMM_WORLD);
