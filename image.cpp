@@ -9,10 +9,10 @@ const ushort heightInit = 8;
 const ushort incrementP = 4;
 const ushort incrementS = 4;
 
-Image::Image(vector<vector<int> > &data, int c){
+Image::Image(vector<vector<int> > &data, short c){
     this->data = data;
     this->clacc = c;
-}
+} 
 
 void Image::calIntegral(){
     int t;
@@ -96,7 +96,7 @@ vector<vector<int> > & Image::getImageData(){
     return (this->data);
 }
 
-int Image::getImageClass(){
+short Image::getImageClass(){
     return this->clacc;
 }
 
