@@ -56,6 +56,8 @@ int main(int argc, char** argv) {
 	int nums = images.size();
 	//image row nums
 	int rows = images[0].getImageData().size();
+
+	int sz = 0;
 	
 	// the root decides how may rows will be handled by each of the
 	// processors, and MPI_Scatters its decision
@@ -81,6 +83,12 @@ int main(int argc, char** argv) {
 		images[i].calIntegral();
 		images[i].calFeatureByLines(start, end);
 	}
+	sum = image[0].getFeatureVector().size();
+	
+	MPI_Reduce(&sum, &sz, 1, MPI_INT,
+               MPI_SUM, root, MPI_COMM_WORLD);
+
+	if (taskid == root) {cout<<"total size : "<<sz<<endl;}
 	
 	MPI_Finalize();
 }

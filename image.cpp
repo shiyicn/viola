@@ -30,7 +30,7 @@ void Image::calIntegral(){
     }
 }
 
-void Image::calFeatureVector(){
+/*void Image::calFeatureVector(){
     ushort imageHeight = this->data.size();
     ushort imageWidth = this->data[0].size();
     ushort recWidth = widthInit;
@@ -59,7 +59,7 @@ void Image::calFeatureVector(){
         recHeight += incrementS; 
     }
 
-}
+}*/
 
 void Image::calFeatureByLines(int start, int end) {
     ushort imageHeight = this->data.size();
