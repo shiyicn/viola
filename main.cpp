@@ -6,13 +6,15 @@
 #include <vector>
 #include <cstdlib>
 
+void genDistFeatures(int argc, char** argv, char* dir);
+
 int main(int argc, char** argv) {
 
     /**
     * initialize image data and assign tasks
     */
 
-    //genDistFeature(argc, argv, dir)
+    genDistFeatures(argc, argv, dir);
 
     std::vector<std::vector<int> > data;
 
@@ -47,7 +49,7 @@ int main(int argc, char** argv) {
 
 }
 
-void genDistFeature(int argc, char** argv, dir){
+void genDistFeatures(int argc, char** argv, dir){
 
     const int root = 0;
 
