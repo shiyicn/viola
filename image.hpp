@@ -20,7 +20,7 @@ class Image {
         Image(string fname, short c);
         Image(vector<vector<int> > &data, short c);
         void calIntegral();
-        void calFeatureVector();
+        //void calFeatureVector();
         void initialize();
         vector<vector<int> > &getImageData();
         short getImageClass ();
