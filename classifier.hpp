@@ -13,6 +13,5 @@ vector<SimpleClassifier> getAllWeakClassifiers(vector<Image> &input, double alph
 
 
 vector<Image> load();
-void genDistFeature();
 
 #endif

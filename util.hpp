@@ -14,4 +14,4 @@ struct Position{        //the coordinate of the upleft point
     ushort y;
 };
 
-#endif 
+#endif

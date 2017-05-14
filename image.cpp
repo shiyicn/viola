@@ -27,7 +27,7 @@ void Image::calIntegral(){
             row.push_back(t);
         }
         this->integral.push_back(row);
-    }  
+    }
 }
 
 void Image::calFeatureVector(){
@@ -71,6 +71,7 @@ void Image::calFeatureByLines(int start, int end) {
             /*cal all feature vectors 
             *       {(x, y); (w, h)} such that "start <= x < end"
             */
+            if (start%incrementP != 0) start = (incrementP - start%incrementP) + start;
             for (int x = start; x+w < imageWidth && x < end; x += incrementP){
                 for (int y = 0; y+h < imageHeight; y += incrementP){
                     Position p = {x, y};
