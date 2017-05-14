@@ -2,7 +2,7 @@
 #include "mpi.h"
 #include <iostream>
 
-void genDistFeature(){
+void genDistFeature(int argc, char** argv){
 
     const int root = 0;
 
@@ -45,10 +45,10 @@ void genDistFeature(){
 
     //send start index for every processor
     MPI_Scatter(sendbuf, 1, MPI_INT, &start, 1, MPI_INT, 0, MPI_COMM_WORLD);
-
+    //get end index according to start index and interval size
     end = start + min(interval, rows - start);
     for (int i=0; i<images.size(); i+=1){
-        //cal features from start to end
+        //compute features from start to end
         images[i].calFeatureByLines(start, end);
     }
 }

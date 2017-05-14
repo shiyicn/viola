@@ -1,4 +1,3 @@
-
 #include "image.hpp"
 #include "feature.hpp"
 
