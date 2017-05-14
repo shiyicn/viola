@@ -1,11 +1,19 @@
 #include "image.hpp"
 #include "feature.hpp"
+#include "simpleClassifier.hpp"
 
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 
-int main() {
+int main(int argc, char** argv) {
+
+    /**
+    * initialize image data and assign tasks
+    */
+
+    //genDistFeature(argc, argv, dir)
+
     std::vector<std::vector<int> > data;
 
     cout<<"image :"<<endl;

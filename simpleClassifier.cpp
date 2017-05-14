@@ -2,7 +2,7 @@
 #include "mpi.h"
 #include <iostream>
 
-void genDistFeature(int argc, char** argv){
+void genDistFeature(int argc, char** argv, dir){
 
     const int root = 0;
 
