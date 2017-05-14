@@ -11,6 +11,5 @@
 
 vector<SimpleClassifier> trainWeakClassifier(vector<Image> input, double alpha, double p);
 vector<Image> load();
-void genDistFeature();
 
 #endif

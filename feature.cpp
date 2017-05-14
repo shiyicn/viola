@@ -94,13 +94,13 @@ int featureBcal(Shape s, Position p, const vector<vector<int> > &integral){
 int featureCcal(Shape s, Position p, const vector<vector<int> >&integral){
 
     int bottomRight = integral[p.x + s.width - 1][p.y + s.height - 1];
-    int bottomBRight = integral[p.x + s.width*0.75 - 1][p.y + s.height - 1];    // the bottom-right point of the black part
-    int bottomBLeft = integral[p.x + s.width*0.25 - 1][p.y + s.height - 1];
+    int bottomBRight = integral[p.x + s.width*3/4 - 1][p.y + s.height - 1];    // the bottom-right point of the black part
+    int bottomBLeft = integral[p.x + s.width/4 - 1][p.y + s.height - 1];
     int bottomLeft = (p.x==0)?0:integral[p.x - 1][p.y + s.height - 1];
 
     int upRight = (p.y==0)?0:integral[p.x + s.width - 1][p.y - 1];
-    int upBRight = (p.y==0)?0:integral[p.x + s.width*0.75 - 1][p.y - 1];
-    int upBLeft = (p.y==0)?0:integral[p.x + s.width*0.25 - 1][p.y - 1];
+    int upBRight = (p.y==0)?0:integral[p.x + s.width*3/4 - 1][p.y - 1];
+    int upBLeft = (p.y==0)?0:integral[p.x + s.width/4 - 1][p.y - 1];
     int upLeft = (p.x==0||p.y==0)?0:integral[p.x - 1][p.y - 1];
 
     int wholePart = bottomRight - bottomLeft;

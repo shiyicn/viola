@@ -1,10 +1,7 @@
 all: main
 
-main: image.o feature.o main.o
-	g++ -g -Wall -o main main.o image.o feature.o
-
-main.o: main.cpp
-	g++ -c main.cpp
+main: image.o feature.o main.cpp
+	mpic++ main.cpp image.o feature.o -o main
 
 feature.o: feature.cpp util.hpp feature.hpp
 	g++ -c feature.cpp
