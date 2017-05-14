@@ -75,8 +75,8 @@ int main(int argc, char** argv) {
 	MPI_Scatter(sendbuf, 1, MPI_UNSIGNED_SHORT, &start, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
 	//get end index according to start index and interval size
 	end = start + min((int) interval, rows - interval);
-	cout<<"Taskid : "<<taskid<<" computes from line "<<
-		start<<" to "<<end<<endl;
+	//cout<<"Taskid : "<<taskid<<" computes from line "<<
+	//	start<<" to "<<end<<endl;
 	
 	for (int i=0; i<nums; i+=1){
 		//compute features from start to end
@@ -84,11 +84,19 @@ int main(int argc, char** argv) {
 		images[i].calFeatureByLines(start, end);
 	}
 	int sum = images[0].getFeatureVector().size();
+	cout<<"Taskid : "<<taskid<<" computes : "<<start<<"   "<<end<<
+	endl<<" sum "<<sum<<endl;
 	
 	MPI_Reduce(&sum, &sz, 1, MPI_INT,
                MPI_SUM, root, MPI_COMM_WORLD);
 
-	if (taskid == root) {cout<<"total size : "<<sz<<endl;}
+	if (taskid == root) {
+		cout<<"total size : "<<sz<<endl;
+		images[0].getFeatureVector().clear();
+		images[0].calFeatureVector();
+		int std = images[0].getFeatureVector().size();
+		cout<<"std size : "<<std<<endl;
+	}
 	
 	MPI_Finalize();
 }

@@ -30,7 +30,7 @@ void Image::calIntegral(){
     }
 }
 
-/*void Image::calFeatureVector(){
+void Image::calFeatureVector(){
     ushort imageHeight = this->data.size();
     ushort imageWidth = this->data[0].size();
     ushort recWidth = widthInit;
@@ -59,21 +59,21 @@ void Image::calIntegral(){
         recHeight += incrementS; 
     }
 
-}*/
+}
 
 void Image::calFeatureByLines(int start, int end) {
     ushort imageHeight = this->data.size();
     ushort imageWidth = this->data[0].size();
 
-    for (int w = widthInit; w < imageWidth; w += incrementS){
-        for (int h = heightInit; h < imageHeight; h += incrementS){
+    for (int w = widthInit; w <= imageWidth; w += incrementS){
+        for (int h = heightInit; h <= imageHeight; h += incrementS){
             
             /*cal all feature vectors 
             *       {(x, y); (w, h)} such that "start <= x < end"
             */
             if (start%incrementP != 0) start = (incrementP - start%incrementP) + start;
-            for (int x = start; x+w < imageWidth && x < end; x += incrementP){
-                for (int y = 0; y+h < imageHeight; y += incrementP){
+            for (int x = start; x+w <= imageWidth && x < end; x += incrementP){
+                for (int y = 0; y+h <= imageHeight; y += incrementP){
                     Position p = {x, y};
                     Shape s = {w, h};
                     this->featureVector.push_back(Feature(A,s,p,this->integral));
