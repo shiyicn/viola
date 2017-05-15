@@ -9,6 +9,11 @@
 
 using namespace std;
 
+const ushort widthInit = 8;
+const ushort heightInit = 8;
+const ushort incrementP = 4;
+const ushort incrementS = 4;
+
 class Image {
  
     vector<vector<int> > data;
@@ -23,11 +28,11 @@ class Image {
         void calFeatureVector();
         void initialize();
         vector<vector<int> > &getImageData();
-        short getImageClass ();
+        short getImageClass();
         vector<vector<int> > &getImageIntegral();
         vector<Feature> &getFeatureVector();
-        void calFeatureByLines(int start, int end);
-
+        void calFeatureByLines(int start, int end, vector<pair<int, int> > &couples);
+        int sizeOfFeatures();
 };
 
 #endif

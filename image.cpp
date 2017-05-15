@@ -4,11 +4,6 @@
 using namespace std;
 typedef unsigned short ushort;
 
-const ushort widthInit = 8;
-const ushort heightInit = 8;
-const ushort incrementP = 4;
-const ushort incrementS = 4;
-
 Image::Image(vector<vector<int> > &data, short c){
     this->data = data;
     this->clacc = c;
@@ -61,36 +56,32 @@ void Image::calFeatureVector(){
 
 }
 
-void Image::calFeatureByLines(int start, int end) {
-    ushort imageHeight = this->data.size();
-    ushort imageWidth = this->data[0].size();
+void Image::calFeatureByLines(int start, int end, vector<pair<int, int> > &couples) {
+  ushort imageHeight = this->data.size();
+  ushort imageWidth = this->data[0].size();
 
-    for (int w = widthInit; w <= imageWidth; w += incrementS){
-        for (int h = heightInit; h <= imageHeight; h += incrementS){
-            
-            /*cal all feature vectors 
-            *       {(x, y); (w, h)} such that "start <= x < end"
-            */
-            if (start%incrementP != 0) start = (incrementP - start%incrementP) + start;
-            for (int x = start; x+w <= imageWidth && x < end; x += incrementP){
-                for (int y = 0; y+h <= imageHeight; y += incrementP){
-                    Position p = {x, y};
-                    Shape s = {w, h};
-                    this->featureVector.push_back(Feature(A,s,p,this->integral));
-                    this->featureVector.push_back(Feature(B,s,p,this->integral));
-                    this->featureVector.push_back(Feature(C,s,p,this->integral));
-                    this->featureVector.push_back(Feature(D,s,p,this->integral));
-                }
-            }
-
-        }
+  int w, x;
+  for (int i = start; i < end; i += 1) {
+    //decode x and w infomations
+    //(100*x+w) -> (x, w) -> (incrementP * x, incrementS * w + widthInit)
+    x = couples[i].first;
+    w = couples[i].second;
+    for (int h = heightInit; h <= imageHeight; h += incrementS) {
+      for (int y = 0; y <= imageHeight - h; y += incrementP) {
+        Position p = {x, y};
+        Shape s = {w, h};
+        this->featureVector.push_back(Feature(A, s, p, this->integral));
+        this->featureVector.push_back(Feature(B, s, p, this->integral));
+        this->featureVector.push_back(Feature(C, s, p, this->integral));
+        this->featureVector.push_back(Feature(D, s, p, this->integral));
+      }
     }
-
+  }
 }
 
 void Image::initialize(){
     this->calIntegral();
-    //this->calFeatureVector();
+    this->calFeatureVector();
 }
 
 vector<vector<int> > & Image::getImageData(){

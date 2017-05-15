@@ -15,7 +15,7 @@ class SimpleClassifier{
     //Type type;
     //Shape shape;
     //Position position;
-    
+     
 
     public:
         SimpleClassifier(double w_0,double w_1,int index);
