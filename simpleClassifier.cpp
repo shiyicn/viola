@@ -16,6 +16,10 @@ double SimpleClassifier::getW1(){
     return w_1;
 }
 
+int SimpleClassifier::getIndex(){
+    return index;
+}
+
 void SimpleClassifier::setW0(double w){
     this->w_0 = w;
 }
@@ -49,7 +53,7 @@ short SimpleClassifier::predictByImage(Image &img){
     return this->predictByFeature(f);
 }
 
-void updatePara(Image &img, double alpha){
+void SimpleClassifier::updatePara(Image &img, double alpha){
     short t = this->predictByImage(img)-img.getImageClass();
     int featureValue = img.getFeatureVector()[this->index].getValue();
     w_0 -= alpha*t*featureValue;

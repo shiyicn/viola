@@ -23,6 +23,7 @@ class SimpleClassifier{
         short predictByImage(Image &img);
         double getW0();
         double getW1();
+        int getIndex();
         void setW0(double w);
         void setW1(double w);
         void updatePara(Image &img, double alpha);
