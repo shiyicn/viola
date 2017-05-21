@@ -32,3 +32,4 @@ void getAllWeakClassifier(vector<Image> &input, double alpha, double p, vector<S
 }
 
 
+

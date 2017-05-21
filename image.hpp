@@ -17,18 +17,18 @@ const ushort incrementS = 4;
 class Image {
  
     vector<vector<int> > data;
-    short clacc;
+    int clacc;
     vector<vector<int> > integral;
     vector<Feature> featureVector;
 
     public:
         Image(string fname, short c);
-        Image(vector<vector<int> > &data, short c);
+        Image(vector<vector<int> > &data, int c);
         void calIntegral();
         void calFeatureVector();
         void initialize();
         vector<vector<int> > &getImageData();
-        short getImageClass();
+        int getImageClass();
         vector<vector<int> > &getImageIntegral();
         vector<Feature> &getFeatureVector();
         void calFeatureByLines(int start, int end, vector<pair<int, int> > &couples);

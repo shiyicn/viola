@@ -60,4 +60,9 @@ void SimpleClassifier::updatePara(Image &img, double alpha){
     w_1 -= alpha*t;
 }
 
+string SimpleClassifier::toString(){
+    string str ;
+    str = to_string(w_0)+'\t'+to_string(w_1)+'\t'+to_string(index)+'\n';
+}
+
 

@@ -89,12 +89,12 @@ int main(int argc, char** argv) {
 	MPI_Reduce(&szlocal, &sz, 1, MPI_INT,
                MPI_SUM, root, MPI_COMM_WORLD);
 
-	if (taskid == root) {
+	/*if (taskid == root) {
 		images[0].getFeatureVector().clear();
 		images[0].calFeatureVector();
 		int std = images[0].getFeatureVector().size();
 		cout<<"Total features' size : "<<sz<<endl<<"Standard size : "<<std<<endl;
-	}
+	}*/
 	
 	MPI_Finalize();
 }

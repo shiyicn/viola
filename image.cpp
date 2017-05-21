@@ -4,12 +4,12 @@
 using namespace std;
 typedef unsigned short ushort;
 
-Image::Image(vector<vector<int> > &data, short c){
+Image::Image(vector<vector<int> > &data, int c){
     this->data = data;
     this->clacc = c;
 } 
 
-void Image::calIntegral(){
+void Image::calIntegral(){ 
     int t;
     //vector<vector<int> > res;
     for (int i = 0; i < data.size(); i+=1) {
@@ -88,7 +88,7 @@ vector<vector<int> > & Image::getImageData(){
     return (this->data);
 }
 
-short Image::getImageClass(){
+int Image::getImageClass(){
     return this->clacc;
 }
 

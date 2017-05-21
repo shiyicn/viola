@@ -27,6 +27,8 @@ class SimpleClassifier{
         void setW0(double w);
         void setW1(double w);
         void updatePara(Image &img, double alpha);
+
+        string toString();
         //Type getType();
         //Shape getShape();
        // Position getPosition();
