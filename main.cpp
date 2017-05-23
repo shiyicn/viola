@@ -96,5 +96,6 @@ int main(int argc, char** argv) {
 		cout<<"Total features' size : "<<sz<<endl<<"Standard size : "<<std<<endl;
 	}*/
 	
+	
 	MPI_Finalize();
 }
