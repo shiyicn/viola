@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include "loader.hpp"
 #include <mpi.h>
 
 using namespace std;
@@ -28,6 +29,8 @@ int main(int argc, char** argv) {
 	
 	//load images to vector 
 	vector<Image> images;
+	load_images(images, argc, argv);
+	/**
 	vector<vector<int> > fake;
 	for (int i = 0; i< 112; i+=1){
 		vector<int> row;
@@ -41,6 +44,8 @@ int main(int argc, char** argv) {
 	for(int i = 0; i<100; i+=1){
 		images.push_back(image);
 	}
+	**/
+	
 	//end loading images
 	
 	//image amount
@@ -95,7 +100,6 @@ int main(int argc, char** argv) {
 		int std = images[0].getFeatureVector().size();
 		cout<<"Total features' size : "<<sz<<endl<<"Standard size : "<<std<<endl;
 	}*/
-	
 	
 	MPI_Finalize();
 }
