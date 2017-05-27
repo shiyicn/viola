@@ -1,14 +1,5 @@
 /******* includes *******/
-#include <iostream>
-#include <vector>
-#include <cstdlib>
-#include <time.h>
-#include <sys/time.h>
-#include <string>
-#include <filesystem>
-#include <image.hpp>
-
-#include "CImg.h"
+#include "loader.hpp"
 
 using namespace std;
 using namespace cimg_library;
