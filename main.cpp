@@ -9,6 +9,7 @@
 #include <mpi.h>
 
 using namespace std;
+using namespace cimg_library;
 
 int main(int argc, char** argv) {
 	
@@ -51,7 +52,7 @@ int main(int argc, char** argv) {
 		// try reading the image
 		CImg<unsigned char> img(argv[c]);
 		// if we're here, reading was successful: resize
-		img.resize(NEW_SIZE, NEW_SIZE, KEEP_SIZE, NEW_COLORS);
+		//img.resize(NEW_SIZE, NEW_SIZE, KEEP_SIZE, NEW_COLORS);
 		// transform into vector of doubles
 		vector<double> Xcol;
 		for (CImg<unsigned char>::iterator pixIt = img.begin();
