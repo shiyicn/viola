@@ -21,6 +21,8 @@ DEBUG = -g
 CXXFLAGS= -Wall -c $(DEBUG) -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
 LFLAGS = -Wall $(DEBUG) -lm -lX11
 
+all: main
+
 loader.o: loader.cpp loader.hpp image.cpp image.hpp
 	$(CXX) $(CXXFLAGS) loader.cpp
 
