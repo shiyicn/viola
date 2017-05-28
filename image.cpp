@@ -1,6 +1,7 @@
 #include "image.hpp"
 #include "util.hpp"
 
+#include "feature.hpp"
 using namespace std;
 typedef unsigned short ushort;
 
