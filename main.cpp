@@ -8,11 +8,11 @@
 #include <time.h>
 #include <sys/time.h>
 
-#include "loader.hpp"
+//#include "loader.hpp"
 #include <mpi.h>
 
 using namespace std;
-using namespace cimg_library;
+//using namespace cimg_library;
 
 int main(int argc, char** argv) {
 	
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 	
 	//load images to vector 
 	vector<Image> images;
-	load_images(images, argc, argv);
+	//load_images(images, argc, argv);
 	/**
 	vector<vector<int> > fake;
 	for (int i = 0; i< 112; i+=1){
