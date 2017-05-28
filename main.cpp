@@ -15,7 +15,6 @@ using namespace std;
 //using namespace cimg_library;
 
 int main(int argc, char** argv) {
-	
 
 	/**
 	* initialize image data and assign tasks
