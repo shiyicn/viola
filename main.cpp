@@ -5,6 +5,10 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <time.h>
+#include <sys/time.h>
+
+#include "CImg.h"
 //#include "loader.hpp"
 #include <mpi.h>
 
