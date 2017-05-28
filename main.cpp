@@ -90,11 +90,10 @@ int main(int argc, char** argv) {
 		images[i].calIntegral();
 		images[i].calFeatureByLines(start, end, couples);
 	}
-	int szlocal = images[0].getFeatureVector().size()
+	int szlocal = images[0].getFeatureVector().size();
 	cout<<"Taskid : "<<taskid<<" computes from line "<<
 	start<<" to "<<endl<<"Local features size : "<<szlocal<<endl;
 	
-	int sz = 0;
 	MPI_Reduce(&szlocal, &sz, 1, MPI_INT,
                MPI_SUM, root, MPI_COMM_WORLD);
 
