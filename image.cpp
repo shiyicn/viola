@@ -4,16 +4,16 @@
 using namespace std;
 typedef unsigned short ushort;
 
-Image::Image(vector<vector<int> > &data, int c){
+Image::Image(vector<vector<double> > &data, int c){
     this->data = data;
     this->clacc = c;
-} 
+}
 
 void Image::calIntegral(){ 
-    int t;
+    double t;
     //vector<vector<int> > res;
     for (int i = 0; i < data.size(); i+=1) {
-        vector<int> row;
+        vector<double> row;
         for (int j = 0; j < data[i].size(); j+=1){
             t = data[i][j];
             if (j > 0) t += row[j-1];
@@ -84,7 +84,7 @@ void Image::initialize(){
     this->calFeatureVector();
 }
 
-vector<vector<int> > & Image::getImageData(){
+vector<vector<double> > & Image::getImageData(){
     return (this->data);
 }
 
@@ -92,7 +92,7 @@ int Image::getImageClass(){
     return this->clacc;
 }
 
-vector<vector<int> > & Image::getImageIntegral(){
+vector<vector<double> > & Image::getImageIntegral(){
     return (this->integral);
 }
 

@@ -6,6 +6,7 @@ using namespace cimg_library;
 
 void load_images(vector<Image>& images, int argc, char** argv) {
 
+    int ret = -1;
     // examine calling command line
     if (argc < 2) {
         cout << argv[0] << ": syntax error: syntax is:" << endl;
@@ -17,7 +18,7 @@ void load_images(vector<Image>& images, int argc, char** argv) {
     // store the image vectors corresponding to filenames passed on command line
     for (int c = 0; c < argc; c++){
         try {
-            load_single_image(images, argv[c])
+            load_single_image(images, argv[c]);
         } catch (CImgException& e) {
             // some errors in reading the image
             cerr << argv[0] << ": CImg error while reading " << argv[c] << endl;
@@ -27,7 +28,7 @@ void load_images(vector<Image>& images, int argc, char** argv) {
     }
 }
 
-void load_single_image(vector<Image>& images, const string& path){
+void load_single_image(vector<Image>& images, const char* path){
     //load image with CImg
     CImg<unsigned char> image(path);
     int w = image.width();
@@ -50,5 +51,5 @@ void load_single_image(vector<Image>& images, const string& path){
     }
 
     int c = 1;
-    images.push_back(new Image(data, c));
+    images.push_back(Image(data, c));
 }

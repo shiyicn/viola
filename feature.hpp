@@ -14,11 +14,11 @@ class Feature{
     Type type;    //A,B,C,D
     Shape shape;   //size,
     Position position;       //position
-    int value;              //the value caculated
+    double value;              //the value caculated
 
     public:
-        Feature(Type type, Shape s,Position p, const std::vector<std::vector<int> >& integral);
-        int getValue();
+        Feature(Type type, Shape s,Position p, const std::vector<std::vector<double> >& integral);
+        double getValue();
         Type getType();
         Shape getShape();
         Position getPosition();

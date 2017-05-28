@@ -7,12 +7,14 @@
 #include <time.h>
 #include <sys/time.h>
 #include <string>
-#include <filesystem>
-#include <image.hpp>
+
+#include "image.hpp"
 
 #include "CImg.h"
 
+using namespace std;
+
 void load_images(vector<Image>& images, int argc, char** argv);
-void load_single_image(vector<Image>& images, const string& path);
+void load_single_image(vector<Image>& images, const char* path);
 
 #endif
