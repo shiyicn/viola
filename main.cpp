@@ -8,8 +8,7 @@
 #include <time.h>
 #include <sys/time.h>
 
-#include "CImg.h"
-//#include "loader.hpp"
+#include "loader.hpp"
 #include <mpi.h>
 
 using namespace std;
@@ -34,7 +33,7 @@ int main(int argc, char** argv) {
 	
 	//load images to vector 
 	vector<Image> images;
-	//load_images(images, argc, argv);
+	load_images(images, argc, argv);
 	/**
 	vector<vector<int> > fake;
 	for (int i = 0; i< 112; i+=1){
@@ -50,27 +49,6 @@ int main(int argc, char** argv) {
 		images.push_back(image);
 	}
 	**/
-	vector<vector<double> > X;
-	for (int c = 1; c < argc; ++c) {
-		try {
-		// try reading the image
-		CImg<unsigned char> img(argv[c]);
-		// if we're here, reading was successful: resize
-		//img.resize(NEW_SIZE, NEW_SIZE, KEEP_SIZE, NEW_COLORS);
-		// transform into vector of doubles
-		vector<double> Xcol;
-		for (CImg<unsigned char>::iterator pixIt = img.begin();
-			pixIt != img.end(); ++pixIt) {
-			Xcol.push_back(((double)*pixIt) / 255.0);
-		}
-		X.push_back(Xcol);
-		} catch (CImgException& e) {
-		// some errors in reading the image
-		cerr << argv[0] << ": CImg error while reading " << argv[c] << endl;
-		int ret = 2;
-		exit(ret);
-		}
-	}
 	
 	//end loading images
 	

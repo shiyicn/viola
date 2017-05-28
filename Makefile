@@ -75,13 +75,17 @@ RM = rm -f
 #   the whole project is rebuilt) and on the executable
 all:	$(BIN) Makefile
 
-# rule to build the executable
-$(BIN): $(OBJS) $(BIN).cpp Makefile
-	$(CXX) $(FLAGS) $(INCLUDE) -o $(BIN) $(BIN).cpp $(OBJS) $(LIBS)
+main: image.o feature.o loader.o main.cpp
+	mpic++ $(FLAGS) -o $@ main.cpp image.o feature.o loader.o -o main
 
-# rule for exercise 1
-main: image.* feature.* loader.* main.cpp Makefile
-		mpic++ $(FLAGS) $(INCLUDE) -o $@ image.cpp loader.cpp main.cpp $(LIBS)
+loader.o: loader.cpp loader.hpp image.cpp image.hpp
+	g++ $(FLAGS) $(INCLUDE) -c loader.cpp
+
+feature.o: feature.cpp util.hpp feature.hpp
+	g++ -c feature.cpp
+
+image.o: image.cpp image.hpp util.hpp
+	g++ -c image.cpp
 
 # clean objects and executable
 clean:
