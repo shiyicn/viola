@@ -88,6 +88,7 @@ int main(int argc, char** argv){
     int ret = -1;
     // examine calling command line
     cout<<"load images from : "<<argv[1]<<endl;
+    int path_len = strlen(argv[1]);
     vector<char*> files;
     list_files(files, argv[1], "jpg");
 
@@ -96,7 +97,10 @@ int main(int argc, char** argv){
     for (int c = 0; c < files.size(); c++){
         try {
             //load image with CImg
-            CImg<unsigned char> image(files[c]);
+            char file_load[strlen(files[c])+path_len];
+            strcpy(file_load, argv[1]);
+            strcat(file_load, files[c]);
+            CImg<unsigned char> image(file_load);
             int w = image.width();
             int h = image.height();
             int d = image.depth();
