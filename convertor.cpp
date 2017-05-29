@@ -36,6 +36,8 @@ void list_files(vector<char*>& files, const char* path, const char* filter){
 void save_vector(vector<vector<int> > &data, const char* file, const char* path){
     //create output stream
     char file_save[strlen(file)+strlen(path)];
+    strcpy(file_save, path);
+    strcat(file_save, file);
     ofstream outFile;
     outFile.open(file_save);
     cout<<"save file : "<<file_save<<endl;
