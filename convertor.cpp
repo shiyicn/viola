@@ -120,7 +120,7 @@ int main(int argc, char** argv){
                 }
             }
             int a = 10;
-            ss.clear();
+            ss.str("");
             ss << "img_" << c << ".txt";
             string str = ss.str();
             const char* file = str.c_str();
