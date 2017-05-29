@@ -11,7 +11,7 @@
 using namespace std;
 using namespace cimg_library;
 
-void save_vector(vector<vector<int> > &data, const char* file){
+void save_vector(vector<vector<int> > &data, string& file){
     //create output stream
     ofstream outFile(file);
     if (outFile.is_open())
@@ -29,7 +29,7 @@ void save_vector(vector<vector<int> > &data, const char* file){
     else cout<<"Unable to open file : "<<file<<endl;
 }
 
-vector<vector<int> > load_vector(const char * file){
+vector<vector<int> > load_vector(string& file){
     ifstream inFile(file);
     int w = -1;
     int h = -1;
