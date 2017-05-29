@@ -8,10 +8,31 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <dirent.h>
 #include "CImg.h"
 
 using namespace std;
 using namespace cimg_library;
+
+void list_files(vector<char*>& files const char* path, const char* filter){
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(path)) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            if (strstr(ent->d_name, filter) != NULL) {
+                char* img = new char[strlen(ent->d_name)];
+                strcpy(img, ent->d_name);
+                files.push_back()
+            }
+        }
+        closedir (dir);
+    } else {
+        /* could not open directory */
+        perror ("");
+        return EXIT_FAILURE;
+    }
+}
 
 void save_vector(vector<vector<int> > &data, const char* file){
     //create output stream
@@ -67,25 +88,22 @@ vector<vector<int> > load_vector(const char* file){
 int main(int argc, char** argv){
     int ret = -1;
     // examine calling command line
-    if (argc < 2) {
-        cout << argv[0] << ": syntax error: syntax is:" << endl;
-        cout << "   " << argv[0] << " imgfile1.jpg imgfile2.jpg ..." << endl;
-        ret = 1;
-        exit(ret);
-    }
+    cout<<"load images from : "<<argv[1]<<endl;
+    vector<char*> files;
+    list_files(files, argv[1], "jpg");
 
     // store the image vectors corresponding to filenames passed on command line
     stringstream ss;
-    for (int c = 0; c < argc; c++){
+    for (int c = 0; c < files.size(); c++){
         try {
             //load image with CImg
-            CImg<unsigned char> image(argv[c]);
+            CImg<unsigned char> image(files[c]);
             int w = image.width();
             int h = image.height();
             int d = image.depth();
-            cout<<"Load image : <"<<argv[c]<<"> with size "<<w<<"*"<<h<<"*"<<"d"<<endl;
+            cout<<"Load image : <"<<files[c]<<"> with size "<<w<<"*"<<h<<"*"<<"d"<<endl;
             if (d != 1)
-                cout<<"The depth of image : <"<<argv[c]<<"> is not equal to 1"<<endl;
+                cout<<"The depth of image : <"<<files[c]<<"> is not equal to 1"<<endl;
             int count = 0;
             vector<int> col;
             vector<vector<int> > data;
@@ -106,9 +124,11 @@ int main(int argc, char** argv){
             save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
-            cerr << argv[0] << ": CImg error while reading " << argv[c] << endl;
+            cerr << argv[0] << ": CImg error while reading " << files[c] << endl;
             ret = 2;
             exit(ret);
         }
     }
 }
+
+
