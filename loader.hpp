@@ -13,33 +13,19 @@
 
 #include "image.hpp"
 
-#ifndef POSITIVE
-#define POSITIVE = "pos";
-#endif
+const char* POSITIVE = "pos";
 
-#ifndef NEGATIVE
-#define NEGATIVE = "neg";
-#endif
+const char* NEGATIVE = "neg";
 
-#ifndef POSITIVE_CLASS
-#define POSITIVE_CLASS = 1;
-#endif
+const int POSITIVE_CLASS = 1;
 
-#ifndef NEGATIVE_CLASS
-#define NEGATIVE_CLASS = 0;
-#endif
+const int NEGATIVE_CLASS = 0;
 
-#ifndef TEST
-#define TEST = "test";
-#endif
+const char* TEST = "test";
 
-#ifndef VALIDATION
-#define VALIDATION = "val";
-#endif
+const char* VALIDATION = "val";
 
-#ifndef TRAIN
-#define TRAIN = "train";
-#endif
+const char* TRAIN = "train";
 
 using namespace std;
 
