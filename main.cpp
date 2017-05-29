@@ -11,7 +11,6 @@
 #include <mpi.h>
 
 using namespace std;
-using namespace cimg_library;
 
 int main(int argc, char** argv) {
 
