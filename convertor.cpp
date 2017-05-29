@@ -61,35 +61,6 @@ vector<vector<int> > load_vector(const char * file){
     return data;
 }
 
-void load_single_image(vector<Image>& images, const char* path){
-    std::ofstream outFile;
-    outFile.open("my_file.txt");
-
-    //load image with CImg
-    CImg<unsigned char> image(path);
-    int w = image.width();
-    int h = image.height();
-    int d = image.depth();
-    cout<<"Load image : <"<<path<<"> with size "<<w<<"*"<<h<<"*"<<"d"<<endl;
-    if (d != 1)
-        cout<<"The depth of image : <"<<path<<"> is not equal to 1"<<endl;
-    int count = 0;
-    vector<double> col;
-    vector<vector<double> > data;
-    // need more details about the mechanism of CImg library
-    for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
-        col.push_back(*it / 255.0);
-        if (count % w == (w - 1)) {
-            //push a colon to data vector
-            data.push_back(col);
-            col.clear();
-        }
-    }
-
-    int c = 1;
-    images.push_back(Image(data, c));
-}
-
 int main(int argc, char** argv){
     int ret = -1;
     // examine calling command line
