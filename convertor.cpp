@@ -125,7 +125,7 @@ int main(int argc, char** argv){
             string str = ss.str();
             const char* file = str.c_str();
             cout<<"build txt file : "<<file<<endl;
-            //save_vector(data, file);
+            save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
             cerr << argv[0] << ": CImg error while reading " << files[c] << endl;
