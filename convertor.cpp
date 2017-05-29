@@ -94,7 +94,7 @@ int main(int argc, char** argv){
                         col.clear();
                     }
                 }
-                string file = "img_" + c + ".txt";
+                string file = "img_" + to_string(c) + ".txt";
                 save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
