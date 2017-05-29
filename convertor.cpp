@@ -7,6 +7,7 @@
 #include <sys/time.h>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include "CImg.h"
 
 using namespace std;
