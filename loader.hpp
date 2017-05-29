@@ -13,31 +13,31 @@
 
 #include "image.hpp"
 
-#ifdef POSITIVE
+#ifndef POSITIVE
 #define POSITIVE = "pos";
 #endif
 
-#ifdef NEGATIVE
+#ifndef NEGATIVE
 #define NEGATIVE = "neg";
 #endif
 
-#ifdef POSITIVE_CLASS
+#ifndef POSITIVE_CLASS
 #define POSITIVE_CLASS = 1;
 #endif
 
-#ifdef NEGATIVE_CLASS
+#ifndef NEGATIVE_CLASS
 #define NEGATIVE_CLASS = 0;
 #endif
 
-#ifdef TEST
-#define TEST = "test;
+#ifndef TEST
+#define TEST = "test";
 #endif
 
-#ifdef VALIDATION
-#define VALIDATION = "val;
+#ifndef VALIDATION
+#define VALIDATION = "val";
 #endif
 
-#ifdef TRAIN
+#ifndef TRAIN
 #define TRAIN = "train";
 #endif
 
