@@ -53,7 +53,7 @@ void save_vector(vector<vector<int> > &data, const char* file, const char* path)
     else cout<<"Unable to open file : "<<file<<endl;
 }
 
-void load_vector(vector<vector<double> >& datas, const char* file){
+void load_vector(vector<vector<int> >& datas, const char* file){
     ifstream inFile (file, ios::in|ios::binary|ios::ate);
     int w = -1;
     int h = -1;
