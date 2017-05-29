@@ -13,20 +13,6 @@
 
 #include "image.hpp"
 
-const char* POSITIVE = "pos";
-
-const char* NEGATIVE = "neg";
-
-const int POSITIVE_CLASS = 1;
-
-const int NEGATIVE_CLASS = 0;
-
-const char* TEST = "test";
-
-const char* VALIDATION = "val";
-
-const char* TRAIN = "train";
-
 using namespace std;
 
 void load_images(vector<Image>& images, int argc, char** argv);
