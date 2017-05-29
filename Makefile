@@ -6,7 +6,7 @@ LDPATH = LD_LIBRARY_PATH=/usr/local/boost-1.58.0/lib:/usr/lib/alliance/lib
 all: main
 
 main: image.o feature.o loader.o main.cpp
-	mpic++ -o main.cpp image.o feature.o loader.o main
+	mpic++ main.cpp image.o feature.o loader.o -o main
 
 feature.o: feature.cpp util.hpp feature.hpp
 	g++ -c feature.cpp
