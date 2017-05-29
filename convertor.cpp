@@ -33,10 +33,11 @@ void list_files(vector<char*>& files, const char* path, const char* filter){
     }
 }
 
-void save_vector(vector<vector<int> > &data, const char* file){
+void save_vector(vector<vector<int> > &data, const char* file, const char* path){
     //create output stream
+    char file_save[strlen(file)+strlen(path)];
     ofstream outFile;
-    outFile.open(file);
+    outFile.open(file_save);
     if (outFile.is_open())
     {
         //write the size to 
@@ -52,7 +53,7 @@ void save_vector(vector<vector<int> > &data, const char* file){
     else cout<<"Unable to open file : "<<file<<endl;
 }
 
-vector<vector<int> > load_vector(const char* file){
+void load_vector(vector<vector<double> >& datas, const char* file){
     ifstream inFile (file, ios::in|ios::binary|ios::ate);
     int w = -1;
     int h = -1;
@@ -81,7 +82,7 @@ vector<vector<int> > load_vector(const char* file){
         cout<<"Unable to open file"<<file<<endl;
         exit(-1);
     }
-    return data;
+    datas.push_back(data);
 }
 
 int main(int argc, char** argv){
@@ -125,7 +126,7 @@ int main(int argc, char** argv){
             string str = ss.str();
             const char* file = str.c_str();
             cout<<"build txt file : "<<file<<endl;
-            save_vector(data, file);
+            save_vector(data, file, argv[1]);
         } catch (CImgException& e) {
             // some errors in reading the image
             cerr << argv[0] << ": CImg error while reading " << files[c] << endl;

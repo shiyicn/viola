@@ -3,26 +3,57 @@
 
 using namespace std;
 
-void load_images(vector<Image>& images, int argc, char** argv) {
+void load_dataset(vector<Image>& images, const char* path){
+    
+}
 
-    int ret = -1;
-    // examine calling command line
-    if (argc < 2) {
-        cout << argv[0] << ": syntax error: syntax is:" << endl;
-        cout << "   " << argv[0] << " imgfile1.jpg imgfile2.jpg ..." << endl;
-        ret = 1;
-        exit(ret);
-    }
-
-    // store the image vectors corresponding to filenames passed on command line
-    for (int c = 0; c < argc; c++){
-        load_single_image(images, argv[c]);
+void list_files(vector<char*>& files, const char* path, const char* filter){
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(path)) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            if (strstr(ent->d_name, filter) != NULL) {
+                char* img = new char[strlen(ent->d_name)];
+                strcpy(img, ent->d_name);
+                files.push_back(img);
+            }
+        }
+        closedir (dir);
+    } else {
+        /* could not open directory */
+        perror ("");
     }
 }
 
-void load_single_image(vector<Image>& images, const char* path){
-    int c = 1;
-    vector<vector<int> > data = load_vector(path);
+void load_images(vector<Image>& images, const char* path) {
+
+    // store the image vectors corresponding to filenames passed on command line
+    vector<char*> files;
+    list_files(files, path, "txt");
+    for (int c = 0; c < files.size(); c++){
+        load_single_image(images, files[c], path);
+    }
+}
+
+void load_single_image(vector<Image>& images, const char* file, const char* path){
+    
+    int c = -1;
+    if (strstr(path, POSITIVE) != NULL) {
+        cout<<"create positive images from : "<<path<<endl;
+        c = POSITIVE_CLASS;
+    } else if(strstr(path, NEGATIVE) != NULL) {
+        cout<<"create negative images from : "<<path<<endl;
+        c = NEGATIVE_CLASS;
+    } else {
+        cout<<"invalid dataset : "<<path<<endl;
+        exit(-1);
+    }
+    //create load path
+    char img_load[strlen(path)+strlen(file)];
+    strcpy(img_load, path);
+    strcat(img_load, file);
+    vector<vector<int> > data = load_vector(img_load);
     vector<vector<double> > data_float;
     for (int i=0; i<data.size(); i+=1){
         vector<double> row;
