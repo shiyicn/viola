@@ -9,7 +9,7 @@
 #include <sys/time.h>
 
 #include "loader.hpp"
-#include <mpi.h>
+//#include <mpi.h>
 
 using namespace std;
 //using namespace cimg_library;
