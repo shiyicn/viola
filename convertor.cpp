@@ -14,7 +14,7 @@
 using namespace std;
 using namespace cimg_library;
 
-void list_files(vector<char*>& files const char* path, const char* filter){
+void list_files(vector<char*>& files, const char* path, const char* filter){
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(path)) != NULL) {
@@ -23,14 +23,13 @@ void list_files(vector<char*>& files const char* path, const char* filter){
             if (strstr(ent->d_name, filter) != NULL) {
                 char* img = new char[strlen(ent->d_name)];
                 strcpy(img, ent->d_name);
-                files.push_back()
+                files.push_back(img);
             }
         }
         closedir (dir);
     } else {
         /* could not open directory */
         perror ("");
-        return EXIT_FAILURE;
     }
 }
 
