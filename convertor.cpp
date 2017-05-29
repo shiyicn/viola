@@ -104,7 +104,7 @@ int main(int argc, char** argv){
             int w = image.width();
             int h = image.height();
             int d = image.depth();
-            cout<<"Load image : <"<<files[c]<<"> with size "<<w<<"*"<<h<<"*"<<"d"<<endl;
+            cout<<"Load image : <"<<files[c]<<"> with size "<<w<<"*"<<h<<"*"<<d<<endl;
             if (d != 1)
                 cout<<"The depth of image : <"<<files[c]<<"> is not equal to 1"<<endl;
             int count = 0;
@@ -124,7 +124,8 @@ int main(int argc, char** argv){
             ss << "img_" << c << ".txt";
             string str = ss.str();
             const char* file = str.c_str();
-            save_vector(data, file);
+            cout<<"build txt file : "<<file<<endl;
+            //save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
             cerr << argv[0] << ": CImg error while reading " << files[c] << endl;
