@@ -1,3 +1,10 @@
+
+INCLUDE = -I/usr/local/boost-1.58.0/include/ -I/usr/local/CImg-1.6.2/
+LIBS = -lpthread -lX11 -L/usr/local/boost-1.58.0/lib/
+LDPATH = LD_LIBRARY_PATH=/usr/local/boost-1.58.0/lib:/usr/lib/alliance/lib
+
+
+
 all: main convertor
 
 main: image.o feature.o loader.o main.cpp
@@ -10,7 +17,7 @@ image.o: image.cpp image.hpp util.hpp
 	g++ -c image.cpp
 
 convertor: convertor.cpp convertor.hpp Makefile
-	g++ convertor.cpp -L/usr/X11R6/lib -lm -lpthread -lX11 -o convertor
+	g++ $(FLAGS) $(INCLUDE) convertor.cpp -o convertor $(LIBS)
 
 clean:
 	rm -rf main convertor *.o *~
