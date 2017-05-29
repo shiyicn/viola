@@ -13,7 +13,7 @@
 using namespace std;
 using namespace cimg_library;
 
-void save_vector(vector<vector<int> > &data, char* file){
+void save_vector(vector<vector<int> > &data, const char* file){
     //create output stream
     ofstream outFile;
     outFile.open(file);
@@ -32,7 +32,7 @@ void save_vector(vector<vector<int> > &data, char* file){
     else cout<<"Unable to open file : "<<file<<endl;
 }
 
-vector<vector<int> > load_vector(char* file){
+vector<vector<int> > load_vector(const char* file){
     ifstream inFile (file, ios::in|ios::binary|ios::ate);
     int w = -1;
     int h = -1;
@@ -102,7 +102,7 @@ int main(int argc, char** argv){
             ss.clear();
             ss << "img_" << c << ".txt";
             string str = ss.str();
-            const char* file = str.c_str();
+            char* file = str.c_str();
             save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
