@@ -14,7 +14,7 @@ using namespace cimg_library;
 
 void save_vector(vector<vector<int> > &data, string& file){
     //create output stream
-    ofstream outFile(file, ofstream::out);
+    ofstream outFile (file);
     if (outFile.is_open())
     {
         //write the size to 
@@ -31,7 +31,7 @@ void save_vector(vector<vector<int> > &data, string& file){
 }
 
 vector<vector<int> > load_vector(string& file){
-    ifstream inFile(file, ifstream::in);
+    ifstream inFile (file);
     int w = -1;
     int h = -1;
     vector<vector<int> > data;
