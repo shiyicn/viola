@@ -74,30 +74,35 @@ int main(int argc, char** argv){
     }
 
     // store the image vectors corresponding to filenames passed on command line
+    stringstream ss;
     for (int c = 0; c < argc; c++){
         try {
-                //load image with CImg
-                CImg<unsigned char> image(argv[c]);
-                int w = image.width();
-                int h = image.height();
-                int d = image.depth();
-                cout<<"Load image : <"<<argv[c]<<"> with size "<<w<<"*"<<h<<"*"<<"d"<<endl;
-                if (d != 1)
-                    cout<<"The depth of image : <"<<argv[c]<<"> is not equal to 1"<<endl;
-                int count = 0;
-                vector<int> col;
-                vector<vector<int> > data;
-                // need more details about the mechanism of CImg library
-                for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
-                    col.push_back(*it);
-                    if (count % w == (w - 1)) {
-                        //push a colon to data vector
-                        data.push_back(col);
-                        col.clear();
-                    }
+            //load image with CImg
+            CImg<unsigned char> image(argv[c]);
+            int w = image.width();
+            int h = image.height();
+            int d = image.depth();
+            cout<<"Load image : <"<<argv[c]<<"> with size "<<w<<"*"<<h<<"*"<<"d"<<endl;
+            if (d != 1)
+                cout<<"The depth of image : <"<<argv[c]<<"> is not equal to 1"<<endl;
+            int count = 0;
+            vector<int> col;
+            vector<vector<int> > data;
+            // need more details about the mechanism of CImg library
+            for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
+                col.push_back(*it);
+                if (count % w == (w - 1)) {
+                    //push a colon to data vector
+                    data.push_back(col);
+                    col.clear();
                 }
-                string file = "img_" + to_string(c) + ".txt";
-                save_vector(data, file);
+            }
+            int a = 10;
+            ss.clear();
+            ss << "img_" << c << ".txt";
+            string str = ss.str();
+            string file = str.c_str();
+            save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
             cerr << argv[0] << ": CImg error while reading " << argv[c] << endl;
