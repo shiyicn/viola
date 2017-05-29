@@ -25,7 +25,7 @@ int main(int argc, char** argv){
     for (int c = 0; c < argc; c++){
         try {
                 //load image with CImg
-                CImg<unsigned char> image(path);
+                CImg<unsigned char> image(argv[c]);
                 int w = image.width();
                 int h = image.height();
                 int d = image.depth();
@@ -44,8 +44,8 @@ int main(int argc, char** argv){
                         col.clear();
                     }
                 }
-                string file = "img_" + i + ".txt"
-                save_vector(data, file)
+                string file = "img_" + c + ".txt";
+                save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
             cerr << argv[0] << ": CImg error while reading " << argv[c] << endl;
@@ -57,8 +57,7 @@ int main(int argc, char** argv){
 
 void save_vector(vector<vector<int> > &data, const char* file){
     //create output stream
-    ofstream outFile;
-    outFile.open(file);
+    ofstream outFile(file);
     if (outFile.is_open())
     {
         //write the size to 
@@ -69,13 +68,13 @@ void save_vector(vector<vector<int> > &data, const char* file){
                 outFile<<data[i][j]<<endl;
             }
         }
+        outFile.close();
     }
     else cout<<"Unable to open file : "<<file<<endl;
 }
 
 vector<vector<int> > load_vector(const char * file){
-    ifstream inFile;
-    inFile.open(file);
+    ifstream inFile(file);
     int w = -1;
     int h = -1;
     vector<vector<int> > data;
