@@ -102,7 +102,7 @@ int main(int argc, char** argv){
             ss.clear();
             ss << "img_" << c << ".txt";
             string str = ss.str();
-            char* file = str.c_str();
+            const char* file = str.c_str();
             save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
