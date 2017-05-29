@@ -6,6 +6,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <string>
+#include <fstream>
 #include "CImg.h"
 
 using namespace std;
@@ -94,7 +95,7 @@ int main(int argc, char** argv){
                         col.clear();
                     }
                 }
-                string file = "img_" + string(itoa(c)) + ".txt";
+                string file = "img_" + to_string(c) + ".txt";
                 save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
