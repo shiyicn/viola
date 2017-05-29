@@ -38,6 +38,7 @@ void save_vector(vector<vector<int> > &data, const char* file, const char* path)
     char file_save[strlen(file)+strlen(path)];
     ofstream outFile;
     outFile.open(file_save);
+    cout<<"save file : "<<file_save<<endl;
     if (outFile.is_open())
     {
         //write the size to 
