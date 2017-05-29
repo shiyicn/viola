@@ -8,7 +8,6 @@
 #include <time.h>
 #include <sys/time.h>
 #include "CImg.h"
-#include <mpi.h>
 
 using namespace std;
 using namespace cimg_library;
