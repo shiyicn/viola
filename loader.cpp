@@ -39,10 +39,10 @@ void load_images(vector<Image>& images, const char* path) {
 void load_single_image(vector<Image>& images, const char* file, const char* path){
     
     int c = -1;
-    if (strstr(path, POSITIVE) != NULL) {
+    if ((strstr(path, POSITIVE)) != NULL) {
         cout<<"create positive images from : "<<path<<endl;
         c = POSITIVE_CLASS;
-    } else if(strstr(path, NEGATIVE) != NULL) {
+    } else if((strstr(path, NEGATIVE)) != NULL) {
         cout<<"create negative images from : "<<path<<endl;
         c = NEGATIVE_CLASS;
     } else {
