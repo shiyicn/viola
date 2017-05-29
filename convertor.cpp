@@ -13,7 +13,7 @@ using namespace cimg_library;
 
 void save_vector(vector<vector<int> > &data, string& file){
     //create output stream
-    ofstream outFile(file);
+    ofstream outFile(file, ofstream::out);
     if (outFile.is_open())
     {
         //write the size to 
@@ -30,7 +30,7 @@ void save_vector(vector<vector<int> > &data, string& file){
 }
 
 vector<vector<int> > load_vector(string& file){
-    ifstream inFile(file);
+    ifstream inFile(file, ifstream::in);
     int w = -1;
     int h = -1;
     vector<vector<int> > data;
@@ -94,7 +94,7 @@ int main(int argc, char** argv){
                         col.clear();
                     }
                 }
-                string file = "img_" + to_string(c) + ".txt";
+                string file = "img_" + string(itoa(c)) + ".txt";
                 save_vector(data, file);
         } catch (CImgException& e) {
             // some errors in reading the image
