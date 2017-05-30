@@ -9,7 +9,7 @@ const char* NEGATIVE = "neg";
 
 const int POSITIVE_CLASS = 1;
 
-const int NEGATIVE_CLASS = 0;
+const int NEGATIVE_CLASS = -1;
 
 const char* TEST = "test";
 
@@ -54,7 +54,7 @@ void load_images(vector<Image>& images, const char* path) {
 
 void load_single_image(vector<Image>& images, const char* file, const char* path){
     
-    int c = -1;
+    int c = -10;
     if ((strstr(path, POSITIVE)) != NULL) {
         c = POSITIVE_CLASS;
     } else if((strstr(path, NEGATIVE)) != NULL) {

@@ -129,7 +129,7 @@ int main(int argc, char** argv){
                     outFile<<w<<endl;
                     outFile<<h<<endl;
                     // need more details about the mechanism of CImg library
-                    for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
+                    for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it) {
                         outFile<<*it<<endl;
                     }
                     outFile.close();
