@@ -1,6 +1,9 @@
 #include "simpleClassifier.hpp"
-#include "mpi.h"
+#include <string>
 #include <iostream>
+#include <sstream>
+
+using namespace std;
 
 SimpleClassifier::SimpleClassifier(double w_0,double w_1,int index){
     this->w_0 = w_0;
@@ -55,14 +58,17 @@ short SimpleClassifier::predictByImage(Image &img){
 
 void SimpleClassifier::updatePara(Image &img, double alpha){
     short t = this->predictByImage(img)-img.getImageClass();
-    int featureValue = img.getFeatureVector()[this->index].getValue();
+    double featureValue = img.getFeatureVector()[this->index].getValue();
     w_0 -= alpha*t*featureValue;
     w_1 -= alpha*t;
 }
 
 string SimpleClassifier::toString(){
-    string str ;
-    str = to_string(w_0)+'\t'+to_string(w_1)+'\t'+to_string(index)+'\n';
+	stringstream ss;
+	ss.str("");
+	ss<<w_0<<"\t"<<w_1<<"\t"<<index<<endl;
+	string str = ss.str();
+	return str;
 }
 
 
