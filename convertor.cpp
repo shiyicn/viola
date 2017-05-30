@@ -90,7 +90,7 @@ int main(int argc, char** argv){
     int ret = -1;
     // examine calling command line
     int length = 2;
-    char* folds[] = {"test/pos/", "test/neg/"};
+    char* folds[] = {"test/pos/", "test/neg/", "val/pos/", "val/neg/", "train/pos/", "train/neg/"};
     for (int index = 0; index < length; index += 1){
         cout<<"load images from : "<<folds[index]<<endl;
         int path_len = strlen(folds[index]);
@@ -109,9 +109,9 @@ int main(int argc, char** argv){
                 int w = image.width();
                 int h = image.height();
                 int d = image.depth();
-                cout<<"Load image : <"<<files[c]<<"> with size "<<w<<"*"<<h<<"*"<<d<<endl;
+                //cout<<"Load image : <"<<files[c]<<"> with size "<<w<<"*"<<h<<"*"<<d<<endl;
                 if (d != 1)
-                    cout<<"The depth of image : <"<<files[c]<<"> is not equal to 1"<<endl;
+                    //cout<<"The depth of image : <"<<files[c]<<"> is not equal to 1"<<endl;
                 int count = 0;
                 ss.str("");
                 ss << "img_" << c << ".txt";
