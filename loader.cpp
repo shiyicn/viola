@@ -93,6 +93,7 @@ vector<vector<int> > load_vector(const char * file){
             cout<<"Error in reading width and height infos\n";
             exit(-1);
         }
+        cout<<"Size is : "<<w<<" , "<<h<<endl;
         unsigned char elt = -1;
         for (int i=0; i<w; i+=1){
             vector<int> row;
