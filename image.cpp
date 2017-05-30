@@ -72,11 +72,9 @@ void Image::calFeatureByLines(int start, int end, vector<pair<int, int> > &coupl
     int count = 0;
     for (int h = heightInit; h <= imageHeight; h += incrementS) {
       for (int y = 0; y <= imageHeight - h; y += incrementP) {
-	count += 1;
         Position p = {x, y};
-	Shape s = {w, h};
-	//cout<<"Four features."<<endl;
-	cout<<x<<" "<<y<<" "<<w<<" "<<h<<endl;
+        Shape s = {w, h};
+        //cout<<"Four features."<<endl;
         this->featureVector.push_back(Feature(A, s, p, this->integral));
         this->featureVector.push_back(Feature(B, s, p, this->integral));
         this->featureVector.push_back(Feature(C, s, p, this->integral));
