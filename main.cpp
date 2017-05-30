@@ -9,6 +9,7 @@
 #include <sys/time.h>
 #include "loader.hpp"
 #include <mpi.h>
+#include "classifier.hpp"
 
 using namespace std;
 
@@ -28,7 +29,8 @@ int main(int argc, char** argv) {
 	
 	//load images to vector 
 	vector<Image> images;
-	load_images(images, "test/pos/");
+	vector<Image> valSet;
+	load_images(images, "train");
 
 	//end loading images
 	
@@ -82,18 +84,17 @@ int main(int argc, char** argv) {
 	int szlocal = images[0].getFeatureVector().size();
 	cout<<"Local features size : "<<szlocal<<endl;
 	
-	int sum = 0;
+	/*int sum = 0;
 	MPI_Reduce(&szlocal, &sum, 1, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD);
 	if (taskid == root) {
 		cout<<"Size of feature vector is : "<<sum<<endl;
-	}
-
-	/*if (taskid == root) {
-		images[0].getFeatureVector().clear();
-		images[0].calFeatureVector();
-		int std = images[0].getFeatureVector().size();
-		cout<<"Total features' size : "<<sz<<endl<<"Standard size : "<<std<<endl;
 	}*/
+
+	vector<SimpleClassifier> cs;
+	getAllWeakClassifiers(images,0.01,0.001,cs);
+	for(int i=0;i<cs.size();i++){
+		cout<<"weakclassifier "<<i<<" "<<cs[i].toString()<<endl;
+	}
 	
 	MPI_Finalize();
 }
