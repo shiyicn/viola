@@ -90,7 +90,7 @@ int main(int argc, char** argv){
     int ret = -1;
     // examine calling command line
     int length = 2;
-    char* folds[] = {"test/pos/", "test/neg"};
+    char* folds[] = {"test/pos/", "test/neg/"};
     for (int index = 0; index < length; index += 1){
         cout<<"load images from : "<<folds[index]<<endl;
         int path_len = strlen(folds[index]);
@@ -113,25 +113,27 @@ int main(int argc, char** argv){
                 if (d != 1)
                     cout<<"The depth of image : <"<<files[c]<<"> is not equal to 1"<<endl;
                 int count = 0;
-                vector<int> col;
-                vector<vector<int> > data;
-                // need more details about the mechanism of CImg library
-                for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
-                    col.push_back(*it);
-                    if (count % w == (w - 1)) {
-                        //push a colon to data vector
-                        data.push_back(col);
-                        col.clear();
-                    }
-                }
-                cout<<"Count : "<<count<<endl;
-                int a = 10;
                 ss.str("");
                 ss << "img_" << c << ".txt";
                 string str = ss.str();
                 const char* file = str.c_str();
                 cout<<"build txt file : "<<file<<endl;
-                save_vector(data, file, folds[index]);
+                //save_vector(data, file, folds[index]);
+                char file_save[strlen(file)+strlen(folds[index])];
+                strcpy(file_save, path);
+                strcat(file_save, file);
+                ofstream outFile;
+                outFile.open(file_save);
+                if (outFile.is_open()){
+                    // save image size
+                    outFile<<w<<endl;
+                    outFile<<h<<endl;
+                    // need more details about the mechanism of CImg library
+                    for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
+                        outFile<<*it<<endl;
+                    }
+                    outFile.close()
+                } else cout<<"Unable to open file : "<<file<<endl;
             } catch (CImgException& e) {
                 // some errors in reading the image
                 cerr << argv[0] << ": CImg error while reading " << files[c] << endl;
