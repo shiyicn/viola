@@ -89,8 +89,9 @@ void load_vector(vector<vector<int> >& data, const char* file){
 int main(int argc, char** argv){
     int ret = -1;
     // examine calling command line
+    int length = 2;
     char* folds[] = {"test/pos/", "test/neg"}
-    for (int index = 0; index < folds.length(); index += 1){
+    for (int index = 0; index < length; index += 1){
         cout<<"load images from : "<<folds[index]<<endl;
         int path_len = strlen(folds[index]);
         vector<char*> files;
