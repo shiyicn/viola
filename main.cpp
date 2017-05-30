@@ -51,6 +51,7 @@ int main(int argc, char** argv) {
 	//size of set (x, w)
 	int sz = couples.size();
 	if (taskid == root){
+		cout<<"Size of all images : "<<nums<<endl;
 		cout<<"Size of all couples : "<<sz<<endl;
 	}
 	
