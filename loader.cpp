@@ -68,6 +68,7 @@ void load_single_image(vector<Image>& images, const char* file, const char* path
     strcpy(img_load, path);
     strcat(img_load, file);
     vector<vector<int> > data = load_vector(img_load);
+    cout<<"Size of loaded vector : "<<data.size()<<" , "<<data[0].size()<<endl;
     vector<vector<double> > data_float;
     for (int i=0; i<data.size(); i+=1){
         vector<double> row;
@@ -103,6 +104,7 @@ vector<vector<int> > load_vector(const char * file){
             }
             data.push_back(row);
         }
+        inFile.close();
     }
     else
     {
