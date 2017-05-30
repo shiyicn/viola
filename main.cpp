@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 	unsigned short end = -1;
 	
 	//send start index for every processor
-	MPI_Scatter(sendbuf, 1, MPI_UNSIGNED_SHORT, &start, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
+	MPI_Scatter(&sendbuf, 1, MPI_UNSIGNED_SHORT, &start, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
 	//get end index according to start index and interval size
 	end = start + interval;
 	if (end > sz) end = sz;
