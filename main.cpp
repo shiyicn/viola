@@ -25,7 +25,8 @@ int main(int argc, char** argv) {
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
 	MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
-
+	
+	cout<<"Start to load images."<<endl;
 	if (taskid == 0) cout<<"Assigned tasks"<<endl;
 	
 	//load images to vector 

@@ -24,10 +24,12 @@ void load_dataset(vector<Image>& images, const char* path){
 void list_files(vector<char*>& files, const char* path, const char* filter){
     DIR *dir;
     struct dirent *ent;
+    cout<<"Try to get the list of all files from : "<<path<<endl;
     if ((dir = opendir(path)) != NULL) {
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL) {
             if (strstr(ent->d_name, filter) != NULL) {
+		cout<<"load : "<<ent->d_name<<endl;
                 char* img = new char[strlen(ent->d_name)];
                 strcpy(img, ent->d_name);
                 files.push_back(img);
@@ -44,6 +46,7 @@ void load_images(vector<Image>& images, const char* path) {
 
     // store the image vectors corresponding to filenames passed on command line
     vector<char*> files;
+    cout<<"Try to fetch files from : "<<path<<endl;
     list_files(files, path, "txt");
     for (int c = 0; c < files.size(); c++){
         load_single_image(images, files[c], path);
