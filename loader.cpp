@@ -29,7 +29,6 @@ void list_files(vector<char*>& files, const char* path, const char* filter){
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL) {
             if (strstr(ent->d_name, filter) != NULL) {
-		        cout<<"load : "<<ent->d_name<<endl;
                 char* img = new char[strlen(ent->d_name)];
                 strcpy(img, ent->d_name);
                 files.push_back(img);
