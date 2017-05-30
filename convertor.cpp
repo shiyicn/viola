@@ -89,50 +89,53 @@ void load_vector(vector<vector<int> >& data, const char* file){
 int main(int argc, char** argv){
     int ret = -1;
     // examine calling command line
-    cout<<"load images from : "<<argv[1]<<endl;
-    int path_len = strlen(argv[1]);
-    vector<char*> files;
-    list_files(files, argv[1], "jpg");
+    char* folds[] = {"test/pos/", "test/neg"}
+    for (int index = 0; index < folds.length(); index += 1){
+        cout<<"load images from : "<<folds[index]<<endl;
+        int path_len = strlen(folds[index]);
+        vector<char*> files;
+        list_files(files, folds[index], "jpg");
 
-    // store the image vectors corresponding to filenames passed on command line
-    stringstream ss;
-    for (int c = 0; c < files.size(); c++){
-        try {
-            //load image with CImg
-            char file_load[strlen(files[c])+path_len];
-            strcpy(file_load, argv[1]);
-            strcat(file_load, files[c]);
-            CImg<unsigned char> image(file_load);
-            int w = image.width();
-            int h = image.height();
-            int d = image.depth();
-            cout<<"Load image : <"<<files[c]<<"> with size "<<w<<"*"<<h<<"*"<<d<<endl;
-            if (d != 1)
-                cout<<"The depth of image : <"<<files[c]<<"> is not equal to 1"<<endl;
-            int count = 0;
-            vector<int> col;
-            vector<vector<int> > data;
-            // need more details about the mechanism of CImg library
-            for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
-                col.push_back(*it);
-                if (count % w == (w - 1)) {
-                    //push a colon to data vector
-                    data.push_back(col);
-                    col.clear();
+        // store the image vectors corresponding to filenames passed on command line
+        stringstream ss;
+        for (int c = 0; c < files.size(); c++){
+            try {
+                //load image with CImg
+                char file_load[strlen(files[c])+path_len];
+                strcpy(file_load, folds[index]);
+                strcat(file_load, files[c]);
+                CImg<unsigned char> image(file_load);
+                int w = image.width();
+                int h = image.height();
+                int d = image.depth();
+                cout<<"Load image : <"<<files[c]<<"> with size "<<w<<"*"<<h<<"*"<<d<<endl;
+                if (d != 1)
+                    cout<<"The depth of image : <"<<files[c]<<"> is not equal to 1"<<endl;
+                int count = 0;
+                vector<int> col;
+                vector<vector<int> > data;
+                // need more details about the mechanism of CImg library
+                for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
+                    col.push_back(*it);
+                    if (count % w == (w - 1)) {
+                        //push a colon to data vector
+                        data.push_back(col);
+                        col.clear();
+                    }
                 }
+                int a = 10;
+                ss.str("");
+                ss << "img_" << c << ".txt";
+                string str = ss.str();
+                const char* file = str.c_str();
+                cout<<"build txt file : "<<file<<endl;
+                save_vector(data, file, folds[index]);
+            } catch (CImgException& e) {
+                // some errors in reading the image
+                cerr << argv[0] << ": CImg error while reading " << files[c] << endl;
+                ret = 2;
+                exit(ret);
             }
-            int a = 10;
-            ss.str("");
-            ss << "img_" << c << ".txt";
-            string str = ss.str();
-            const char* file = str.c_str();
-            cout<<"build txt file : "<<file<<endl;
-            save_vector(data, file, argv[1]);
-        } catch (CImgException& e) {
-            // some errors in reading the image
-            cerr << argv[0] << ": CImg error while reading " << files[c] << endl;
-            ret = 2;
-            exit(ret);
         }
     }
 }
