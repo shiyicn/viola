@@ -67,9 +67,9 @@ void load_single_image(vector<Image>& images, const char* file, const char* path
     char img_load[strlen(path)+strlen(file)];
     strcpy(img_load, path);
     strcat(img_load, file);
-    cout<<"load image : "<<img_load<<endl;
+    //cout<<"load image : "<<img_load<<endl;
     vector<vector<int> > data = load_vector(img_load);
-    cout<<"Size of loaded vector : "<<data.size()<<" , "<<data[0].size()<<endl;
+    //cout<<"Size of loaded vector : "<<data.size()<<" , "<<data[0].size()<<endl;
     vector<vector<double> > data_float;
     for (int i=0; i<data.size(); i+=1){
         vector<double> row;
@@ -91,11 +91,11 @@ vector<vector<int> > load_vector(const char * file){
     {
         inFile>>w;
         inFile>>h;
-        cout<<"Size is : "<<w<<" , "<<h<<endl;
+        //cout<<"Size is : "<<w<<" , "<<h<<endl;
         unsigned char elt = -1;
-        for (int i=0; i<w; i+=1){
+        for (int i=0; i<h; i+=1){
             vector<int> row;
-            for (int j=0; j<h; j+=1){
+            for (int j=0; j<w; j+=1){
                 if (!inFile>>elt){
                     cout<<"Error in reading element in ("<<i<<" , "<<j<<")\n";
                     exit(-1);

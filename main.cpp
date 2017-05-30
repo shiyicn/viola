@@ -26,8 +26,8 @@ int main(int argc, char** argv) {
 	MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
 	MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
 	
-	cout<<"Start to load images."<<endl;
-	if (taskid == 0) cout<<"Assigned tasks"<<endl;
+// 	cout<<"Start to load images."<<endl;
+// 	if (taskid == 0) cout<<"Assigned tasks"<<endl;
 	
 	//load images to vector 
 	vector<Image> images;
@@ -38,12 +38,12 @@ int main(int argc, char** argv) {
 	//image amount
 	int nums = images.size();
 	//image row nums
-	int rows = images[0].getImageData().size();
+	int cols = images[0].getImageData()[0].size();
 	
 	//store all (x, w) in couples
 	vector<pair<int, int> > couples;
-	for (int x = 0; x <= (rows-widthInit); x += incrementP){
-		for (int w = widthInit; w <= (rows-x); w += incrementS){
+	for (int x = 0; x <= (cols-widthInit); x += incrementP){
+		for (int w = widthInit; w <= (cols-x); w += incrementS){
 			couples.push_back(make_pair(x, w));
 		}
 	}
@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 	int sz = couples.size();
 	if (taskid == root){
 		cout<<"Size of all images : "<<nums<<endl;
-		cout<<"Num of rows : "<<rows<<endl;
+		cout<<"Size of Image : "<<images[0].getImageData().size()<<" , "<<images[0].getImageData()[0].size()<<endl;
 		cout<<"Size of all couples : "<<sz<<endl;
 	}
 	
@@ -74,17 +74,29 @@ int main(int argc, char** argv) {
 	end = start + interval;
 	if (end > sz) end = sz;
 	
-	for (int i=0; i<nums; i+=1){
-		//compute features from start to end
-		images[i].calIntegral();
-		images[i].calFeatureByLines(start, end, couples);
-	}
-	int szlocal = images[0].getFeatureVector().size();
 	cout<<"Taskid : "<<taskid<<" computes from line "<<
-	start<<" to "<<end<<endl<<"Local features size : "<<szlocal<<endl;
+	start<<" to "<<end<<endl;
 	
-	MPI_Reduce(&szlocal, &sz, 1, MPI_DOUBLE,
-               MPI_SUM, root, MPI_COMM_WORLD);
+	if (taskid == root) {
+		images[0].calIntegral();
+		images[0].calFeatureByLines(start, end, couples);
+		//images[0].calFeatureVector();
+	}
+
+// 	for (int i=0; i<nums; i+=1){
+// 		//compute features from start to end
+// 		images[i].calIntegral();
+// 		images[i].calFeatureByLines(start, end, couples);
+// 		//cout<<"Taskid : "<<taskid<<" finishes image features' computation.\n";
+// 	}
+	int szlocal = images[0].getFeatureVector().size();
+	cout<<"Local features size : "<<szlocal<<endl;
+	
+	int sum = 0;
+	MPI_Reduce(&szlocal, &sum, 1, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD);
+	if (taskid == root) {
+		cout<<"Size of feature vector is : "<<sum<<endl;
+	}
 
 	/*if (taskid == root) {
 		images[0].getFeatureVector().clear();
