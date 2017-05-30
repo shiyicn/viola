@@ -17,8 +17,8 @@ void Image::calIntegral(){
         vector<double> col;
         for (int j = 0; j < data.size(); j+=1){
             t = data[j][i];
-            if (i > 0) t += col[i-1];
-            if (j > 0) t += integral[j][i-1];
+            if (j > 0) t += col[j-1];
+            if (i > 0) t += integral[j][i-1];
             if (i > 0 && j > 0) t -= integral[j-1][i-1];
             col.push_back(t);
         }
