@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
 	int sz = couples.size();
 	if (taskid == root){
 		cout<<"Size of all images : "<<nums<<endl;
+		cout<<"Num of rows : "<<rows<<endl;
 		cout<<"Size of all couples : "<<sz<<endl;
 	}
 	
