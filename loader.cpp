@@ -92,7 +92,7 @@ vector<vector<int> > load_vector(const char * file){
             cout<<"Error in reading width and height infos\n";
             exit(-1);
         }
-        int elt = -1;
+        unsigned char elt = -1;
         for (int i=0; i<w; i+=1){
             vector<int> row;
             for (int j=0; j<h; j+=1){
@@ -100,7 +100,7 @@ vector<vector<int> > load_vector(const char * file){
                     cout<<"Error in reading element in ("<<i<<" , "<<j<<")\n";
                     exit(-1);
                 };
-                row.push_back(elt);
+                row.push_back(((int) elt));
             }
             data.push_back(row);
         }
