@@ -89,10 +89,8 @@ vector<vector<int> > load_vector(const char * file){
     vector<vector<int> > data;
     if (inFile.is_open())
     {
-        if (!inFile>>w || !inFile>>h) {
-            cout<<"Error in reading width and height infos\n";
-            exit(-1);
-        }
+        inFile>>w;
+        inFile>>h;
         cout<<"Size is : "<<w<<" , "<<h<<endl;
         unsigned char elt = -1;
         for (int i=0; i<w; i+=1){
