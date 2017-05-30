@@ -76,19 +76,12 @@ int main(int argc, char** argv) {
 	
 	cout<<"Taskid : "<<taskid<<" computes from line "<<
 	start<<" to "<<end<<endl;
-	
-	if (taskid == root) {
-		images[0].calIntegral();
-		images[0].calFeatureByLines(start, end, couples);
-		//images[0].calFeatureVector();
-	}
 
-// 	for (int i=0; i<nums; i+=1){
-// 		//compute features from start to end
-// 		images[i].calIntegral();
-// 		images[i].calFeatureByLines(start, end, couples);
-// 		//cout<<"Taskid : "<<taskid<<" finishes image features' computation.\n";
-// 	}
+ 	for (int i=0; i<nums; i+=1){
+ 		//compute features from start to end
+ 		images[i].calIntegral();
+ 		images[i].calFeatureByLines(start, end, couples);
+ 	}
 	int szlocal = images[0].getFeatureVector().size();
 	cout<<"Local features size : "<<szlocal<<endl;
 	
