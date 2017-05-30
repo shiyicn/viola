@@ -66,7 +66,8 @@ int main(int argc, char** argv) {
 	//send start index for every processor
 	MPI_Scatter(sendbuf, 1, MPI_UNSIGNED_SHORT, &start, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
 	//get end index according to start index and interval size
-	end = start + min((int) interval, sz - start);
+	end = start + interval;
+	if (end > sz) end = sz;
 	
 	for (int i=0; i<nums; i+=1){
 		//compute features from start to end
@@ -75,7 +76,7 @@ int main(int argc, char** argv) {
 	}
 	int szlocal = images[0].getFeatureVector().size();
 	cout<<"Taskid : "<<taskid<<" computes from line "<<
-	start<<" to "<<endl<<"Local features size : "<<szlocal<<endl;
+	start<<" to "<<end<<endl<<"Local features size : "<<szlocal<<endl;
 	
 	MPI_Reduce(&szlocal, &sz, 1, MPI_DOUBLE,
                MPI_SUM, root, MPI_COMM_WORLD);
