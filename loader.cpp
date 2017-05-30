@@ -2,54 +2,114 @@
 #include "loader.hpp"
 
 using namespace std;
-using namespace cimg_library;
 
-void load_images(vector<Image>& images, int argc, char** argv) {
+const char* POSITIVE = "pos";
 
-    int ret = -1;
-    // examine calling command line
-    if (argc < 2) {
-        cout << argv[0] << ": syntax error: syntax is:" << endl;
-        cout << "   " << argv[0] << " imgfile1.jpg imgfile2.jpg ..." << endl;
-        ret = 1;
-        exit(ret);
-    }
+const char* NEGATIVE = "neg";
 
-    // store the image vectors corresponding to filenames passed on command line
-    for (int c = 0; c < argc; c++){
-        try {
-            load_single_image(images, argv[c]);
-        } catch (CImgException& e) {
-            // some errors in reading the image
-            cerr << argv[0] << ": CImg error while reading " << argv[c] << endl;
-            ret = 2;
-            exit(ret);
+const int POSITIVE_CLASS = 1;
+
+const int NEGATIVE_CLASS = 0;
+
+const char* TEST = "test";
+
+const char* VALIDATION = "val";
+
+const char* TRAIN = "train";
+
+void load_dataset(vector<Image>& images, const char* path){
+    
+}
+
+void list_files(vector<char*>& files, const char* path, const char* filter){
+    DIR *dir;
+    struct dirent *ent;
+    cout<<"Try to get the list of all files from : "<<path<<endl;
+    if ((dir = opendir(path)) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            if (strstr(ent->d_name, filter) != NULL) {
+                char* img = new char[strlen(ent->d_name)];
+                strcpy(img, ent->d_name);
+                files.push_back(img);
+            }
         }
+        closedir (dir);
+    } else {
+        /* could not open directory */
+        perror ("");
     }
 }
 
-void load_single_image(vector<Image>& images, const char* path){
-    //load image with CImg
-    CImg<unsigned char> image(path);
-    int w = image.width();
-    int h = image.height();
-    int d = image.depth();
-    cout<<"Load image : <"<<path<<"> with size "<<w<<"*"<<h<<"*"<<"d"<<endl;
-    if (d != 1)
-        cout<<"The depth of image : <"<<path<<"> is not equal to 1"<<endl;
-    int count = 0;
-    vector<double> col;
-    vector<vector<double> > data;
-    // need more details about the mechanism of CImg library
-    for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
-        col.push_back(*it / 255.0);
-        if (count % w == (w - 1)) {
-            // push a colon to data vector
-            data.push_back(col);
-            col.clear();
-        }
-    }
+void load_images(vector<Image>& images, const char* path) {
 
-    int c = 1;
-    images.push_back(Image(data, c));
+    // store the image vectors corresponding to filenames passed on command line
+    vector<char*> files;
+    cout<<"Try to fetch files from : "<<path<<endl;
+    list_files(files, path, "txt");
+    for (int c = 0; c < files.size(); c++){
+        load_single_image(images, files[c], path);
+    }
+}
+
+void load_single_image(vector<Image>& images, const char* file, const char* path){
+    
+    int c = -1;
+    if ((strstr(path, POSITIVE)) != NULL) {
+        c = POSITIVE_CLASS;
+    } else if((strstr(path, NEGATIVE)) != NULL) {
+        c = NEGATIVE_CLASS;
+    } else {
+        cout<<"invalid dataset : "<<path<<endl;
+        exit(-1);
+    }
+    //create load path
+    char img_load[strlen(path)+strlen(file)];
+    strcpy(img_load, path);
+    strcat(img_load, file);
+    //cout<<"load image : "<<img_load<<endl;
+    vector<vector<int> > data = load_vector(img_load);
+    //cout<<"Size of loaded vector : "<<data.size()<<" , "<<data[0].size()<<endl;
+    vector<vector<double> > data_float;
+    for (int i=0; i<data.size(); i+=1){
+        vector<double> row;
+        for(int j=0; j<data[0].size(); j+=1){
+            row.push_back(data[i][j] / 255.0);
+        }
+        data_float.push_back(row);
+    }
+    images.push_back(Image(data_float, c));
+}
+
+vector<vector<int> > load_vector(const char * file){
+    ifstream inFile;
+    inFile.open(file);
+    int w = -1;
+    int h = -1;
+    vector<vector<int> > data;
+    if (inFile.is_open())
+    {
+        inFile>>w;
+        inFile>>h;
+        //cout<<"Size is : "<<w<<" , "<<h<<endl;
+        unsigned char elt = -1;
+        for (int i=0; i<h; i+=1){
+            vector<int> row;
+            for (int j=0; j<w; j+=1){
+                if (!inFile>>elt){
+                    cout<<"Error in reading element in ("<<i<<" , "<<j<<")\n";
+                    exit(-1);
+                };
+                row.push_back(((int) elt));
+            }
+            data.push_back(row);
+        }
+        inFile.close();
+    }
+    else
+    {
+        cout<<"Unable to open file"<<file<<endl;
+        exit(-1);
+    }
+    return data;
 }

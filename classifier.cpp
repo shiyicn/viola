@@ -5,10 +5,10 @@ const double w0_init = 1.0;
 const double w1_init = 0.0;
 
 
-
 void trainWeakClassifier(SimpleClassifier &classifier,vector<Image>& images, double alpha, double p){
-    double w0_cur = classifier.getW0();
+
     double w1_cur = classifier.getW1();
+    double w0_cur = classifier.getW0();
     double w0_pre,w1_pre;
     srand(time(NULL));
     do{

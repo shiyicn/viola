@@ -7,15 +7,12 @@
 #include <cstdlib>
 #include <time.h>
 #include <sys/time.h>
-
 #include "loader.hpp"
 #include <mpi.h>
 
 using namespace std;
-//using namespace cimg_library;
 
 int main(int argc, char** argv) {
-	
 
 	/**
 	* initialize image data and assign tasks
@@ -28,45 +25,36 @@ int main(int argc, char** argv) {
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
 	MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
-
-	if (taskid == 0) cout<<"Assigned tasks"<<endl;
+	
+// 	cout<<"Start to load images."<<endl;
+// 	if (taskid == 0) cout<<"Assigned tasks"<<endl;
 	
 	//load images to vector 
 	vector<Image> images;
-	load_images(images, argc, argv);
-	/**
-	vector<vector<int> > fake;
-	for (int i = 0; i< 112; i+=1){
-		vector<int> row;
-		for (int j=0; j< 92; j+=1) {
-			row.push_back(1);
-		}
-		fake.push_back(row);
-	}
-	Image image = Image(fake, 1);
-	
-	for(int i = 0; i<100; i+=1){
-		images.push_back(image);
-	}
-	**/
-	
+	load_images(images, "test/pos/");
+
 	//end loading images
 	
 	//image amount
 	int nums = images.size();
 	//image row nums
-	int rows = images[0].getImageData().size();
+	int cols = images[0].getImageData()[0].size();
 	
 	//store all (x, w) in couples
 	vector<pair<int, int> > couples;
-	for (int x = 0; x <= (rows-widthInit); x += incrementP){
-		for (int w = widthInit; w <= (rows-x); w += incrementS){
+	for (int x = 0; x <= (cols-widthInit); x += incrementP){
+		for (int w = widthInit; w <= (cols-x); w += incrementS){
 			couples.push_back(make_pair(x, w));
 		}
 	}
 
 	//size of set (x, w)
 	int sz = couples.size();
+	if (taskid == root){
+		cout<<"Size of all images : "<<nums<<endl;
+		cout<<"Size of Image : "<<images[0].getImageData().size()<<" , "<<images[0].getImageData()[0].size()<<endl;
+		cout<<"Size of all couples : "<<sz<<endl;
+	}
 	
 	// the root decides how may rows will be handled by each of the
 	// processors, and MPI_Scatters its decision
@@ -81,21 +69,34 @@ int main(int argc, char** argv) {
 	unsigned short end = -1;
 	
 	//send start index for every processor
-	MPI_Scatter(sendbuf, 1, MPI_UNSIGNED_SHORT, &start, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
+	MPI_Scatter(&sendbuf, 1, MPI_UNSIGNED_SHORT, &start, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
 	//get end index according to start index and interval size
-	end = start + min((int) interval, sz - start);
+	end = start + interval;
+	if (end > sz) end = sz;
 	
-	for (int i=0; i<nums; i+=1){
-		//compute features from start to end
-		images[i].calIntegral();
-		images[i].calFeatureByLines(start, end, couples);
-	}
-	int szlocal = images[0].getFeatureVector().size();
 	cout<<"Taskid : "<<taskid<<" computes from line "<<
-	start<<" to "<<endl<<"Local features size : "<<szlocal<<endl;
+	start<<" to "<<end<<endl;
 	
-	MPI_Reduce(&szlocal, &sz, 1, MPI_INT,
-               MPI_SUM, root, MPI_COMM_WORLD);
+	if (taskid == root) {
+		images[0].calIntegral();
+		images[0].calFeatureByLines(start, end, couples);
+		//images[0].calFeatureVector();
+	}
+
+// 	for (int i=0; i<nums; i+=1){
+// 		//compute features from start to end
+// 		images[i].calIntegral();
+// 		images[i].calFeatureByLines(start, end, couples);
+// 		//cout<<"Taskid : "<<taskid<<" finishes image features' computation.\n";
+// 	}
+	int szlocal = images[0].getFeatureVector().size();
+	cout<<"Local features size : "<<szlocal<<endl;
+	
+	int sum = 0;
+	MPI_Reduce(&szlocal, &sum, 1, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD);
+	if (taskid == root) {
+		cout<<"Size of feature vector is : "<<sum<<endl;
+	}
 
 	/*if (taskid == root) {
 		images[0].getFeatureVector().clear();
