@@ -50,6 +50,9 @@ int main(int argc, char** argv) {
 
 	//size of set (x, w)
 	int sz = couples.size();
+	if (rank == root){
+		cout<<"Size of all couples : "<<sz<<endl;
+	}
 	
 	// the root decides how may rows will be handled by each of the
 	// processors, and MPI_Scatters its decision
