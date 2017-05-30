@@ -60,9 +60,7 @@ void Image::calFeatureVector(){
 void Image::calFeatureByLines(int start, int end, vector<pair<int, int> > &couples) {
   ushort imageHeight = this->data.size();
   ushort imageWidth = this->data[0].size();
-	cout<<"image heigth "<<imageHeight<<endl;
-	cout<<"intergal : "<<this->integral.size()<<"  "<<this->integral[0].size()<<endl;
-
+  
   int w, x;
   for (int i = start; i < end; i += 1) {
     //decode x and w infomations
