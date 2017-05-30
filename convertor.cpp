@@ -120,7 +120,7 @@ int main(int argc, char** argv){
                 cout<<"build txt file : "<<file<<endl;
                 //save_vector(data, file, folds[index]);
                 char file_save[strlen(file)+strlen(folds[index])];
-                strcpy(file_save, path);
+                strcpy(file_save, folds[index]);
                 strcat(file_save, file);
                 ofstream outFile;
                 outFile.open(file_save);
@@ -132,7 +132,7 @@ int main(int argc, char** argv){
                     for (CImg<unsigned char>::iterator it = image.begin(); it != image.end(); ++it, ++count) {
                         outFile<<*it<<endl;
                     }
-                    outFile.close()
+                    outFile.close();
                 } else cout<<"Unable to open file : "<<file<<endl;
             } catch (CImgException& e) {
                 // some errors in reading the image
