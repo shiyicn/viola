@@ -31,7 +31,8 @@ int main(int argc, char** argv) {
 	
 	//load images to vector 
 	vector<Image> images;
-	
+	load_images(images, "test/pos");
+
 	//end loading images
 	
 	//image amount
