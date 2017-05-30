@@ -18,8 +18,8 @@ void Image::calIntegral(){
         for (int j = 0; j < data.size(); j+=1){
             t = data[j][i];
             if (j > 0) t += col[j-1];
-            if (i > 0) t += integral[j][i-1];
-            if (i > 0 && j > 0) t -= integral[j-1][i-1];
+            if (i > 0) t += integral[i-1][j];
+            if (i > 0 && j > 0) t -= integral[i-1][j-1];
             col.push_back(t);
         }
         this->integral.push_back(col);
