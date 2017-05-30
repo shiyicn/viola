@@ -12,7 +12,6 @@ Image::Image(vector<vector<double> > &data, int c){
 
 void Image::calIntegral(){ 
     double t;
-    //vector<vector<int> > res;
     for (int i = 0; i < data.size(); i+=1) {
         vector<double> row;
         for (int j = 0; j < data[i].size(); j+=1){
