@@ -124,6 +124,7 @@ int main(int argc, char** argv){
                         col.clear();
                     }
                 }
+                cout<<"Count : "<<count<<endl;
                 int a = 10;
                 ss.str("");
                 ss << "img_" << c << ".txt";
