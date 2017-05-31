@@ -10,6 +10,7 @@
 #include "loader.hpp"
 #include <mpi.h>
 #include "classifier.hpp"
+#include "adaboost.hpp"
 
 using namespace std;
 
@@ -30,6 +31,11 @@ int main(int argc, char** argv) {
 	//load images to vector 
 	vector<Image> images;
 	vector<Image> valSet;
+
+	load_images(valSet,"val/pos");
+	load_images(valSet,"val/neg");
+
+	load_images(images,"test/pos");
 	load_images(images, "test/neg/");
 	//load_images(images, "test/neg/");
 
@@ -95,6 +101,18 @@ int main(int argc, char** argv) {
 	getAllWeakClassifiers(images,0.01,0.001,cs);
 	for(int i=0;i<cs.size();i++){
 		cout<<"weakclassifier "<<i<<" "<<cs[i].toString()<<endl;
+	}
+
+	cout<<"Processus "<<taskid<<" got all the weak classifiers"<<endl;
+	cout<<"To compute the strong classifier..."<<endl;
+
+	vector<SimpleClassifier> strong;
+	vector<double> alpha;
+	strongClassifer(valSet,cs,strong,alpha,10);
+	cout<<"Stong classifier compute completed"<<endl;
+	if(taskid==0){
+		saveClassifier(strong,alpha);
+		cout<<"Strong classifier saved"<<endl;
 	}
 	
 	MPI_Finalize();
