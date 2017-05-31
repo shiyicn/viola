@@ -10,6 +10,7 @@ typedef unsigned short ushort;
 
 class SimpleClassifier{
 
+    public:
     double w_0,w_1;
     int index;    
     //Type type;
