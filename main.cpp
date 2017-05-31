@@ -30,8 +30,8 @@ int main(int argc, char** argv) {
 	//load images to vector 
 	vector<Image> images;
 	vector<Image> valSet;
-	load_images(images, "test/pos/");
 	load_images(images, "test/neg/");
+	//load_images(images, "test/neg/");
 
 	//end loading images
 	

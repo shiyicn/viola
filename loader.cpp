@@ -1,6 +1,6 @@
 /******* includes *******/
 #include "loader.hpp"
-
+#include <string>
 using namespace std;
 
 const char* POSITIVE = "pos";
@@ -75,6 +75,7 @@ void load_single_image(vector<Image>& images, const char* file, const char* path
         vector<double> row;
         for(int j=0; j<data[0].size(); j+=1){
             row.push_back(data[i][j] / 255.0);
+//cout<<data[i][j]<<endl;
         }
         data_float.push_back(row);
     }
@@ -82,8 +83,7 @@ void load_single_image(vector<Image>& images, const char* file, const char* path
 }
 
 vector<vector<int> > load_vector(const char * file){
-    ifstream inFile;
-    inFile.open(file);
+    ifstream inFile (file, ifstream::in);
     int w = -1;
     int h = -1;
     vector<vector<int> > data;
@@ -92,14 +92,19 @@ vector<vector<int> > load_vector(const char * file){
         inFile>>w;
         inFile>>h;
         //cout<<"Size is : "<<w<<" , "<<h<<endl;
-        unsigned char elt = -1;
+        int elt = -1;
+	string line = "";
         for (int i=0; i<h; i+=1){
             vector<int> row;
             for (int j=0; j<w; j+=1){
-                if (!inFile>>elt){
-                    cout<<"Error in reading element in ("<<i<<" , "<<j<<")\n";
-                    exit(-1);
-                };
+		getline(inFile,line);
+		elt = atoi(line.c_str());
+//cout<<elt<<endl;
+//                 if (inFile.getline()){
+//                     cout<<"Error in reading element in ("<<i<<" , "<<j<<")\n";
+//                     exit(-1);
+//                 };
+
                 row.push_back(((int) elt));
             }
             data.push_back(row);
