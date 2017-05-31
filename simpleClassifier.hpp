@@ -19,6 +19,7 @@ class SimpleClassifier{
      
 
     public:
+        SimpleClassifier();
         SimpleClassifier(double w_0,double w_1,int index);
         short predictByFeature(Feature &f);
         short predictByImage(Image &img);

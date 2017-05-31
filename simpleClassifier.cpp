@@ -5,6 +5,11 @@
 
 using namespace std;
 
+SimpleClassifier::SimpleClassifier(){
+    w_0 = -1;
+    w_1 = -1;
+    index = -1;    
+}
 SimpleClassifier::SimpleClassifier(double w_0,double w_1,int index){
     this->w_0 = w_0;
     this->w_1 = w_1;
