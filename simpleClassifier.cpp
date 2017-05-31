@@ -59,6 +59,7 @@ short SimpleClassifier::predictByImage(Image &img){
 void SimpleClassifier::updatePara(Image &img, double alpha){
     short t = this->predictByImage(img)-img.getImageClass();
     double featureValue = img.getFeatureVector()[this->index].getValue();
+    cout<< "feature value : "<<featureValue<<" predict class : "<<t<<" proginal class: "<<img.getImageClass()<<endl;
     w_0 -= alpha*t*featureValue;
     w_1 -= alpha*t;
 }
