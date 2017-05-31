@@ -16,6 +16,7 @@ void trainWeakClassifier(SimpleClassifier &classifier,vector<Image>& images, dou
         w1_pre = w1_cur;
         int max = images.size();
         int index = rand() % max;
+        cout<<" to update para"<<endl;
         classifier.updatePara(images[index],alpha);
         w0_cur = classifier.getW0();
         w1_cur = classifier.getW1();
