@@ -7,21 +7,33 @@ all: main
 
 main: image.o feature.o loader.o main.cpp classifier.o simpleClassifier.o
 	mpic++ main.cpp classifier.o image.o feature.o simpleClassifier.o loader.o -o main
-
+ 
 classifier.o: classifier.* simpleClassifier.o
 	g++ -c classifier.cpp
-
+ 
 simpleClassifier.o:
 	g++ -c simpleClassifier.cpp
-
+ 
 loader.o: loader.cpp loader.hpp
 	g++ -c loader.cpp
-
+ 
 feature.o: feature.cpp util.hpp feature.hpp
 	g++ -c feature.cpp
-
+ 
 image.o: image.cpp image.hpp util.hpp
 	g++ -c image.cpp
+
+# main: image.o feature.o loader.o main.cpp
+# 	mpic++ main.cpp image.o feature.o loader.o -o main
+# 
+# loader.o: loader.cpp loader.hpp
+# 	g++ -c loader.cpp
+# 
+# feature.o: feature.cpp util.hpp feature.hpp
+# 	g++ -c feature.cpp
+# 
+# image.o: image.cpp image.hpp util.hpp
+# 	g++ -c image.cpp
 
 convertor: convertor.cpp convertor.hpp Makefile
 	g++ $(FLAGS) $(INCLUDE) convertor.cpp -o convertor $(LIBS)

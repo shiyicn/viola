@@ -30,7 +30,8 @@ int main(int argc, char** argv) {
 	//load images to vector 
 	vector<Image> images;
 	vector<Image> valSet;
-	load_images(images, "train");
+	load_images(images, "test/pos/");
+	load_images(images, "test/neg/");
 
 	//end loading images
 	
@@ -83,7 +84,7 @@ int main(int argc, char** argv) {
  	}
 	int szlocal = images[0].getFeatureVector().size();
 	cout<<"Local features size : "<<szlocal<<endl;
-	
+
 	/*int sum = 0;
 	MPI_Reduce(&szlocal, &sum, 1, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD);
 	if (taskid == root) {

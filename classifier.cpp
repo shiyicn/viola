@@ -22,7 +22,7 @@ void trainWeakClassifier(SimpleClassifier &classifier,vector<Image>& images, dou
     }while((abs(w0_pre - w0_cur)>p)||(abs(w1_pre-w1_cur)>p));
 }
 
-void getAllWeakClassifier(vector<Image> &input, double alpha, double p, vector<SimpleClassifier> &cs){
+void getAllWeakClassifiers(vector<Image> &input, double alpha, double p, vector<SimpleClassifier> &cs){
      int featureNum = input[0].getFeatureVector().size();
      for(int i=0;i<featureNum;i++){
          SimpleClassifier classifier = SimpleClassifier(w0_init,w1_init,i);
