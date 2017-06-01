@@ -90,6 +90,7 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
                 double term = valSet[i].getImageClass()*alpha;
                 term *=best.predictByImage(valSet[i]);
                 lambda[i] *= exp(-term);
+                cout<<"Processus "<<rank<<" computed lambda "<<i<<" : "<<lambda[i]<<endl;
             }
             cout<<"Processus "<<rank<<" updated lamda\n";
 	    double t1 = best.getW0();
