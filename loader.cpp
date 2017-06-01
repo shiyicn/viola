@@ -1,6 +1,11 @@
 /******* includes *******/
 #include "loader.hpp"
 #include <string>
+#include <stdio.h>
+#include <iostream>
+#include <stdlib.h>
+#include <sstream>
+
 using namespace std;
 
 const char* POSITIVE = "pos";
@@ -41,15 +46,45 @@ void list_files(vector<char*>& files, const char* path, const char* filter){
     }
 }
 
+void list_files_by_name(vector<string>& files, const char* prefix, const char* path, int start, int end, const char* suffix){
+	stringstream ss;
+    for (int i=start; i<end; i+=1){
+
+	ss.str("");
+	ss << i;
+	const char* num = ss.str().c_str();
+	char img[strlen(suffix) + strlen(prefix) + strlen(path) + strlen(num)];
+	strcpy(img, path);
+	strcpy(img, prefix);
+	strcat(img, num);
+	strcat(img, suffix);
+	string str = string(img);
+	//cout<<img<<endl;
+	files.push_back(str);
+    }
+}
+
 void load_images(vector<Image>& images, const char* path) {
 
     // store the image vectors corresponding to filenames passed on command line
-    vector<char*> files;
+    vector<char *> files;
     //cout<<"Try to fetch files from : "<<path<<endl;
-    list_files(files, path, "txt");
+    list_files(files, path, ".txt");
  //   for (int c = 0; c < files.size(); c++){
     for (int c = 0; c < files.size(); c++){
         load_single_image(images, files[c], path);
+    }
+}
+
+void load_images(vector<Image>& images, const char* path, int start, int end) {
+
+    // store the image vectors corresponding to filenames passed on command line
+    vector<string> files;
+    //cout<<"Try to fetch files from : "<<path<<endl;
+    list_files_by_name(files, "img_", path, start, end, ".txt");
+ //   for (int c = 0; c < files.size(); c++){
+    for (int c = 0; c < files.size(); c++){
+        load_single_image(images, files[c].c_str(), path);
     }
 }
 
