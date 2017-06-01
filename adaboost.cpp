@@ -72,7 +72,7 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
         cout<<"Round "<<i<<" -- The best of classifier in processus "<<rank<<" is calculated\n";
         errLocal.value = locErr;
         errLocal.index = rank;
-        MPI_Reduce(&errLocal,&errGlobal,1,MPI_DOUBLE_INT,MPI_MAXLOC,0, MPI_COMM_WORLD);
+        MPI_Reduce(&errLocal,&errGlobal,1,MPI_DOUBLE_INT,MPI_MINLOC,0, MPI_COMM_WORLD);
         //**
         //not finished: 1,root brocast the id of the processus which have the best classifier in this round
         //              2,the processus which have the best classifier update the lambda and brocast to the other processus 
