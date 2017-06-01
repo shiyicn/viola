@@ -8,8 +8,8 @@
 const int Class_W0 = 0;
 const int Class_W1 = 1;
 const int Class_Index =2;
-const numCouple = 378;
-const numParCouple = 1012;
+const int numCouple = 378;
+const int numParCouple = 1012;
 
 
 double errCal(Image & img,SimpleClassifier & classifier){

@@ -81,6 +81,7 @@ void load_images(vector<Image>& images, const char* path, int start, int end) {
     // store the image vectors corresponding to filenames passed on command line
     vector<string> files;
     //cout<<"Try to fetch files from : "<<path<<endl;
+    cout<<"load images by name"<<endl;
     list_files_by_name(files, "img_", path, start, end, ".txt");
  //   for (int c = 0; c < files.size(); c++){
     for (int c = 0; c < files.size(); c++){
@@ -103,6 +104,7 @@ void load_single_image(vector<Image>& images, const char* file, const char* path
     char img_load[strlen(path)+strlen(file)];
     strcpy(img_load, path);
     strcat(img_load, file);
+    delete [] file;
     //cout<<"load image : "<<img_load<<endl;
     vector<vector<int> > data = load_vector(img_load);
     //cout<<"Size of loaded vector : "<<data.size()<<" , "<<data[0].size()<<endl;
