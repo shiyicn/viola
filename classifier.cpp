@@ -16,13 +16,13 @@ void trainWeakClassifier(SimpleClassifier &classifier,vector<Image>& images, dou
         w1_pre = w1_cur;
         int max = images.size();
         int index = rand() % max;
-        cout<<" to update para"<<endl;
+        //cout<<" to update para"<<endl;
         //classifier.updatePara(images[index],alpha);
 
         Image img = images[index];
         short t = classifier.predictByImage(img)-img.getImageClass();
         double featureValue = img.getFeatureVector()[classifier.index].getValue();
-        cout<< "feature value : "<<featureValue<<" predict class : "<<t<<" proginal class: "<<img.getImageClass()<<endl;
+       // cout<< "feature value : "<<featureValue<<" predict class : "<<t<<" proginal class: "<<img.getImageClass()<<endl;
         classifier.w_0 -= alpha*t*featureValue;
         classifier.w_1 -= alpha*t; 
 

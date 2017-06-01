@@ -48,7 +48,7 @@ void load_images(vector<Image>& images, const char* path) {
     //cout<<"Try to fetch files from : "<<path<<endl;
     list_files(files, path, "txt");
  //   for (int c = 0; c < files.size(); c++){
-    for (int c = 0; c < 20; c++){
+    for (int c = 0; c < files.size(); c++){
         load_single_image(images, files[c], path);
     }
 }
