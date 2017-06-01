@@ -14,7 +14,7 @@
 
 const double epsilon = 0.01;
 const double precision = 0.01;
-const double strongSize = 10;
+const int strongSize = 10;
 
 using namespace std;
 
@@ -36,10 +36,10 @@ int main(int argc, char** argv) {
 	vector<Image> images;
 	vector<Image> valSet;
 
-	load_images(valSet,"test/pos_t_11/");
-	load_images(valSet,"test/neg_t_11/");
-	load_images(images,"train/pos_t/");
-	load_images(images, "train/neg_t/");
+	load_images(valSet,"val/pos/", 0, 10);
+	load_images(valSet,"val/neg/", 0, 10);
+	load_images(images,"train/pos/", 0, 10);
+	load_images(images, "train/neg/", 0, 10);
 	//load_images(images, "test/neg/");
 
 	//end loading images
