@@ -1,4 +1,6 @@
 #include "perTest.hpp"
+#include <mpi.h>
+#include "adaboost.hpp"
 
 int predict(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha,double theta){
     double pre,term;
@@ -57,4 +59,69 @@ pair<double,double> evaluate(vector<Image> &imgs,vector<SimpleClassifier> & stro
     TN = calTN(imgs,result);
     FN = calFN(imgs,result);
     return make_pair((double)FP/(FP+TN),(double)TP/(TP+FN));
+}
+
+
+int main(int argc, char** argv) {
+
+    	/**
+	* initialize image data and assign tasks
+	*/
+	const int root = 0;
+
+	int numtasks, taskid;
+	MPI_Status status;
+	
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
+	MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
+
+    vector<Image> testSet;
+
+    load_images(testSet,"test/pos/");
+    load_images(testSet,"test/neg/");
+
+    //end loading images
+	
+	//image amount
+	int nums = images.size();
+	//image row nums
+	int cols = images[0].getImageData()[0].size();
+	
+	//store all (x, w) in couples
+	vector<pair<int, int> > couples;
+	for (int x = 0; x <= (cols-widthInit); x += incrementP){
+		for (int w = widthInit; w <= (cols-x); w += incrementS){
+			couples.push_back(make_pair(x, w));
+		}
+	}
+
+    //size of set (x, w)
+	int sz = couples.size();
+	if (taskid == root){
+		cout<<"Size of all images : "<<nums<<endl;
+		cout<<"Size of Image : "<<images[0].getImageData().size()<<" , "<<images[0].getImageData()[0].size()<<endl;
+		cout<<"Size of all couples : "<<sz<<endl;
+	}
+    int inte = sz/numtasks;
+    if(sz/numtasks !=0) inte +=1;
+    int start = taskid * inte;
+    int end = ((start+inte)>sz)?sz:(start+inte);
+
+    cout<<"Taskid : "<<taskid<<" computes from line "<<start<<" to "<<end<<endl;
+    for (int i=0; i<nums; i+=1){
+ 		//compute features from start to end
+ 		images[i].calIntegral();
+ 		images[i].calFeatureByLines(start, end, couples);
+ 	}
+
+    int szlocal = images[0].getFeatureVector().size();
+	cout<<"Local features size : "<<szlocal<<endl;
+
+    vector<double>alpha;
+    vector<SimpleClassifier> strongs;
+    loadClassifier(strongs,alpha);
+	
+
+
 }

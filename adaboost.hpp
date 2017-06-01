@@ -53,4 +53,12 @@ Load the strong classifier from file
 -----------------------------------------------------------*/
 void loadClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha);
 
+/*----------------------------------------------------------
+Exchange between globa lindex and local index for classifiers
+------------------------------------------------------------*/
+int indexLocal2Global(int localIndex,int rank, int size);
+
+//pair<int.int> The first is rank, the second is localIndex
+pair<int,int> indexGlobal2Local(int globalIndex, int size);
+
 #endif

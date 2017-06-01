@@ -8,6 +8,9 @@
 const int Class_W0 = 0;
 const int Class_W1 = 1;
 const int Class_Index =2;
+const numCouple = 378;
+const numParCouple = 1012;
+
 
 double errCal(Image & img,SimpleClassifier & classifier){
     return (classifier.predictByImage(img)==img.getImageClass())?0.0:1.0;
@@ -28,6 +31,23 @@ void getBestClassifier(double *lambda, vector<Image>& valSet, vector<SimpleClass
     }
     best = classifiers[index];
     err = minErr;
+}
+
+int indexLocal2Global(int localIndex, int rank, int size){
+    int inte = numCouple / size;
+    if(numCouple%size != 0) inte += 1;
+    int numPre = rank * inte * numParCouple;
+    return (numPre + localIndex);
+
+}
+
+pair<int,int> indexGlobal2Local(int globalIndex, int size){
+    int numParPro = numCouple/size;
+    if(numCouple/size !=0) numParPro +=1;
+    numParPro *=numParCouple;
+    int rank = globalIndex / numParPro;
+    int localIndex = globalIndex % numParPro;
+    return make_pair(rank,localIndex);
 }
 
 
@@ -64,6 +84,8 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
             cout<<"The classifier calculated by processus "<<rank<<" is chosed\n";
             alpha = (1.0-locErr)/locErr;
             alpha = log(alpha) / 2.0;
+            cout<<"The classifier chosed get error "<<locErr<<endl;;
+            cout<<"The local alpha caculated is "<<alpha<<endl;
             for(int i=0;i<valSet.size();i++){
                 double term = valSet[i].getImageClass()*alpha;
                 term *=best.predictByImage(valSet[i]);
@@ -96,6 +118,8 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
             alpha = (1.0-errGlobal.value)/errGlobal.value;
             alpha = log(alpha) / 2.0;
             alphas.push_back(alpha);
+            cout<<"The global err got is "<<errGlobal.value<<endl;
+            cout<<"The alpha got for this round is "<<alpha<<endl;
         }
         MPI_Bcast(lambda,valSet.size(),MPI_DOUBLE,errGlobal.index,MPI_COMM_WORLD);
         cout<<"Processus "<<errGlobal.index<<" brocasted lambda to all the others processus\n";
@@ -145,5 +169,7 @@ void loadClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha){
         myfile.close();
     }
 }
+
+
 
 

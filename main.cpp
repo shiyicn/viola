@@ -12,6 +12,10 @@
 #include "classifier.hpp"
 #include "adaboost.hpp"
 
+const double epsilon = 0.01;
+const double precision = 0.01;
+const double strongSize = 10;
+
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -97,7 +101,7 @@ int main(int argc, char** argv) {
 	}*/
 
 	vector<SimpleClassifier> cs;
-	getAllWeakClassifiers(images,0.01,1,cs);
+	getAllWeakClassifiers(images,epsilon,precision,cs);
 	for(int i=0;i<cs.size();i++){
 		cout<<"weakclassifier "<<i<<" "<<cs[i].toString()<<endl;
 	}
@@ -107,7 +111,7 @@ int main(int argc, char** argv) {
 
 	vector<SimpleClassifier> strong;
 	vector<double> alpha;
-	strongClassifier(valSet,cs,strong,alpha,10);
+	strongClassifier(valSet,cs,strong,alpha,strongSize);
 	cout<<"Stong classifier compute completed"<<endl;
 	if(taskid==0){
 		saveClassifier(strong,alpha);
