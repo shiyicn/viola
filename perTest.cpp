@@ -2,6 +2,8 @@
 #include <mpi.h>
 #include "adaboost.hpp"
 
+const double theta = 0.0;
+
 int predict(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha,double theta){
     double localPre=0.0;
     double localAlpha=0.0;
@@ -138,6 +140,11 @@ int main(int argc, char** argv) {
     vector<double>alpha;
     vector<SimpleClassifier> strongs;
     loadClassifier(strongs,alpha);
+    pair<double,double> perfor = evaluate(testSet,strongs,alpha,theta);
+    if(taskid == 0){
+        cout<<"Test performance : false positive rate: "<<perfor.first<<" true positive rate : "<<perfor.second<<endl;
+    }
+    MPI_Finalize();
 
 	
 

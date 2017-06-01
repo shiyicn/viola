@@ -126,6 +126,7 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
         cout<<"Processus "<<errGlobal.index<<" brocasted lambda to all the others processus\n";
         MPI_Barrier(MPI_COMM_WORLD);
     }
+    delete []lambda;
 }
 
 void saveClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha){
