@@ -38,7 +38,7 @@ In some round, given the weights lambda, get the best classifier which got the b
 # best : the best simpleclassifier got in this round 
 # err : the err caculated for this best classifier, used for updating lambda in the next round  
 ----------------------------------------------------------*/
-void getBestClassifier(double *lambda, vector<Image>& valSet, vector<SimpleClassifier> &classifiers, SimpleClassifier & best,double err);            //get the classifier which get the best result
+void getBestClassifier(double *lambda, vector<Image>& valSet, vector<SimpleClassifier> &classifiers, SimpleClassifier & best,double *err);            //get the classifier which get the best result
 
 
 /*----------------------------------------------------------
