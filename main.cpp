@@ -40,6 +40,9 @@ int main(int argc, char** argv) {
 	load_images(valSet,"val/neg/", 0, 10);
 	load_images(images,"train/pos/", 0, 10);
 	load_images(images, "train/neg/", 0, 10);
+
+	cout<<"valset size: "<<valSet.size()<<endl;
+	cout<<"trainset size: "<<images.size()<<endl;
 	//load_images(images, "test/neg/");
 
 	//end loading images

@@ -86,6 +86,7 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
             alpha = log(alpha) / 2.0;
             cout<<"The classifier chosed get error "<<locErr<<endl;;
             cout<<"The local alpha caculated is "<<alpha<<endl;
+            cout<<"Valset size: "<<valSet.size()<<endl;
             for(int i=0;i<valSet.size();i++){
                 double term = valSet[i].getImageClass()*alpha;
                 term *=best.predictByImage(valSet[i]);
