@@ -20,4 +20,4 @@ int calFN(vector<Image> &imgs, vector<int> &results);
 /*------------------------------------------------
 Given a threshhold theta and test set, calculate the coordinate of the prediction result in ROC graph
 --------------------------------------------------*/
-pair<double,double> evaluate(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha,double theta);
+pair<double,double>  evaluate(vector<Image> &imgs,vector<SimpleClassifier> & strong, vector<double>&alpha,double theta);

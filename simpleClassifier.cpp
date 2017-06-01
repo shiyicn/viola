@@ -36,6 +36,9 @@ void SimpleClassifier::setW1(double w){
     this->w_1 = w;
 }
 
+void SimpleClassifier::setIndex(int index){
+    this->index = index;
+}
 /*Type SimpleClassifier::getType(){
     return 
 }

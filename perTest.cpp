@@ -3,11 +3,28 @@
 #include "adaboost.hpp"
 
 int predict(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha,double theta){
-    double pre,term;
+    double localPre=0.0;
+    double localAlpha=0.0;
+    double pre=0.0;
+    double term=0.0;
+    int size, rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+
     for(int i=0;i<strong.size();i++){
-        pre +=alpha[i]*strong[i].predictByImage(img);
-        term +=alpha[i];
+        pair<int,int> indexInfo = indexGlobal2Local(strong[i].getIndex(),size);
+        int taskid = indexInfo.first;
+        int localIndex = indexInfo.second;
+        if(rank==taskid){
+            localPre += alpha[i]*strong[i].predictByImage(img);
+            localAlpha +=alpha[i];
+        }
+        //pre +=alpha[i]*strong[i].predictByImage(img);
+        //term +=alpha[i];
     }
+    MPI_Reduce(&localPre, &pre, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&localAlpha,&term,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+
     term *= theta;
     term -=1;
     if(pre >= term) return 1;
@@ -121,6 +138,7 @@ int main(int argc, char** argv) {
     vector<double>alpha;
     vector<SimpleClassifier> strongs;
     loadClassifier(strongs,alpha);
+
 	
 
 

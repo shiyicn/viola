@@ -28,6 +28,7 @@ class SimpleClassifier{
         int getIndex();
         void setW0(double w);
         void setW1(double w);
+        void setIndex(int index);
         void updatePara(Image &img, double alpha);
 
         string toString();

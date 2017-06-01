@@ -114,6 +114,7 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
             cout<<"Processus 0 recieved w1 from "<<errGlobal.index<<endl;
             MPI_Recv(&index,1,MPI_INT,errGlobal.index,Class_Index,MPI_COMM_WORLD, &status);
             cout<<"Processus 0 recieved index from "<<errGlobal.index<<endl;
+            index = indexLocal2Global(index,errGlobal.index,nProcs);
             strong.push_back(SimpleClassifier(w0,w1,index));
             alpha = (1.0-errGlobal.value)/errGlobal.value;
             alpha = log(alpha) / 2.0;
