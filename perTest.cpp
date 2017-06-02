@@ -3,9 +3,12 @@
 #include "adaboost.hpp"
 #include "loader.hpp"
 
-const double theta_start = -1.0;
-const double theta_end = 1.0;
-const double theta_step = 0.02;
+const double theta_start = -0.01;
+const double theta_inf = -0.007;
+const double theta_end = 0.015;
+const double theta_sup = 0.008;
+const double theta_step_small = 0.0001;
+const double theta_step_big = 0.005;
 
 double predictMPI(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha){
     double localPre=0.0;
@@ -41,12 +44,12 @@ double predictMPI(Image &img,vector<SimpleClassifier> & strong, vector<double>&a
 
 double  predictImage(Image & img, vector<SimpleClassifier> &strong, vector<double> &alpha){
     double pre = 0.0;
-    double alpha = 0.0;
+    double term = 0.0;
     for(int i=0;i<strong.size();i++){
         pre +=alpha[i]*strong[i].predictByImage(img);
-        alpha +=alpha[i];
+        term +=alpha[i];
     }
-    return pre/alpha;
+    return pre/term;
 
 }
 
@@ -87,7 +90,7 @@ int calFN(vector<Image> &imgs, vector<int> &results){
 int gettpMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
     int tp = 0;
     for(int i=start;i<end;i++){
-        if((imgs[i].getImageClass()==1)&&(results[i]==1)) tp++;
+        if((imgs[i].getImageClass()==1)&&(results[i-start]==1)) tp++;
     }
     return tp;
 }
@@ -95,7 +98,7 @@ int gettpMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
 int getfpMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
     int fp = 0;
     for(int i=start;i<end;i++){
-        if((imgs[i].getImageClass()==-1)&&(results[i]==1)) fp++;
+        if((imgs[i].getImageClass()==-1)&&(results[i-start]==1)) fp++;
     }
     return fp;
 }
@@ -103,7 +106,7 @@ int getfpMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
 int gettnMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
     int tn = 0;
     for(int i=start;i<end;i++){
-        if((imgs[i].getImageClass()==-1)&&(results[i]==-1)) tn++;
+        if((imgs[i].getImageClass()==-1)&&(results[i-start]==-1)) tn++;
     }
     return tn;
 }
@@ -111,27 +114,27 @@ int gettnMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
 int getfnMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
     int fn = 0;
     for(int i=start;i<end;i++){
-        if((imgs[i].getImageClass()==1)&&(results[i]==-1)) fn++;
+        if((imgs[i].getImageClass()==1)&&(results[i-start]==-1)) fn++;
     }
     return fn;
 }
 
-pair<double,double> evaluate(vector<Image> &imgs,vector<SimpleClassifier> & strong, vector<double>&alpha,double theta){
+/*pair<double,double> evaluate(vector<Image> &imgs,vector<SimpleClassifier> & strong, vector<double>&alpha,double theta){
     vector<int>result;
     int TP,FP,TN,FN;
     for(int i=0;i<imgs.size();i++){
-        result.push_back(predictMPI(imgs[i],strong,alpha,theta));
+        result.push_back(predictMPI(imgs[i],strong,alpha));
     }
     TP = calTP(imgs,result);
     FP = calFP(imgs,result);
     TN = calTN(imgs,result);
     FN = calFN(imgs,result);
     return make_pair((double)FP/(FP+TN),(double)TP/(TP+FN));
-}
+}*/
 
 void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<double>&alpha){
     vector<double>preValue;
-    vectoe<int> result;
+    vector<int> result;
     int rank,size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -145,6 +148,7 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     cout<<"Processus "<<rank<<" calcul images from "<<start<<" to "<<end<<endl;
     for(int i=start;i<end;i++){
         imgs[i].initialize();
+	cout<<"image "<<i<<"predict result is "<<predictImage(imgs[i],strong,alpha)<<endl;
         preValue.push_back(predictImage(imgs[i],strong,alpha)); 
     }
     cout<<"Processus "<<rank<<" feature calcul finished"<<endl;
@@ -153,15 +157,25 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     
     vector<ROC> perf;
     double fpr,tpr;
-    for(double theta=theta_start;theta<theta_end;theta = theta + theta_step){
+    for(double theta=theta_start;theta<theta_end;){
         for(int i=0;i<preValue.size();i++){
-            if(preValue[i]>=theta) result.push_back(1);
-            else result.push_back(-1); 
+            if(preValue[i]>=theta){
+		 result.push_back(1);
+		cout<<"image "<<i+start<<" predict result "<<1<<endl;
+		}
+            else {
+		result.push_back(-1); 
+		cout<<"image "<<i+start<<" predict result "<<-1<<endl;
+		}
         }
         TP = gettpMPI(imgs,result,start,end);
+	//cout<<"tp for processus "<<rank<<" for theta "<<theta<<" is "<<TP<<endl;
         FP = getfpMPI(imgs,result,start,end);
+	//cout<<"fp for processus "<<rank<<" for theta "<<theta<<" is "<<FP<<endl;
         TN = gettnMPI(imgs,result,start,end);
+	//cout<<"tn for processus "<<rank<<" for theta "<<theta<<" is "<<TN<<endl;
         FN = getfnMPI(imgs,result,start,end);
+	//cout<<"fn for processus "<<rank<<" for theta "<<theta<<" is "<<FN<<endl;
         MPI_Reduce(&TP, &gTP, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
         MPI_Reduce(&FP, &gFP, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
         MPI_Reduce(&TN, &gTN, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
@@ -175,12 +189,14 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
         }
         
         result.clear();
+	if((theta>theta_inf)&&(theta<theta_sup)) theta +=theta_step_small;
+	else theta +=theta_step_big;
     }
     if(rank==0){
             ofstream myfile;
             myfile.open("result/testPerf.txt");
             for(int i=0;i<perf.size();i++){
-                myfile<<theta<<'\t'<<fpr<<'\t'<<tpr<<'\n';
+                myfile<<perf[i].theta<<' '<<perf[i].fpr<<' '<<perf[i].tpr<<'\n';
             }          
             myfile.close();
     }    
@@ -202,9 +218,9 @@ int main(int argc, char** argv) {
 	
 	vector<Image> testSet;
 	
-	cout<<" goint to load images"<<endl;
-	load_images(testSet,"val/pos/", 0, 50);
-	load_images(testSet,"val/neg/", 0, 50);
+	cout<<" going to load images"<<endl;
+	load_images(testSet,"test/pos/");
+	load_images(testSet,"test/neg/", 0, 2000);
 	cout<<" load finished"<<endl;
 
     //end loading images

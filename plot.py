@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-with open("data.txt") as f:
+with open("result/testPerf.txt") as f:
     data = f.read()
 
 data = data.split('\n')
