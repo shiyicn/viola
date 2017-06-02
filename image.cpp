@@ -29,15 +29,28 @@ void Image::calIntegral(){
 void Image::calFeatureVector(){
     ushort imageHeight = this->data.size();
     ushort imageWidth = this->data[0].size();
-    ushort recWidth = widthInit;
-    ushort recHeight = heightInit;
+    //ushort recWidth = widthInit;
+    //ushort recHeight = heightInit;
 
-    for(ushort hj =0;recHeight<=imageHeight;hj++){
-        recWidth = widthInit;
-        for(ushort wi=0;recWidth<=imageWidth;wi++){                    //size of rectangle : (widthInit+4*wi)*(heightInit+4*hj)
-            ushort x = 0;
-            ushort y = 0;
-            for(ushort i=0;(y+recHeight)<=imageHeight;i++){
+    for (int x = 0; x <= (imageWidth-widthInit); x += incrementP){
+		for (int w = widthInit; w <= (imageWidth-x); w += incrementS){
+            for (int h = heightInit; h <= imageHeight; h += incrementS) {
+                for (int y = 0; y <= imageHeight - h; y += incrementP) {
+                    Position p = {x, y};
+                    Shape s = {w, h};
+                    //cout<<"Four features."<<endl;
+                    this->featureVector.push_back(Feature(A, s, p, this->integral));
+                    this->featureVector.push_back(Feature(B, s, p, this->integral));
+                    this->featureVector.push_back(Feature(C, s, p, this->integral));
+                    this->featureVector.push_back(Feature(D, s, p, this->integral));
+		        }
+            }
+        }
+	}  
+    this->data.clear();
+    this->integral.clear();               
+            
+            /*for(ushort i=0;(y+recHeight)<=imageHeight;i++){
                 x = 0;
                 for(ushort j=0;(x+recWidth)<=imageWidth;j++){
                     Position p = {x,y};
@@ -53,7 +66,7 @@ void Image::calFeatureVector(){
             recWidth += incrementS;
         }
         recHeight += incrementS; 
-    }
+    }*/
 
 }
 
