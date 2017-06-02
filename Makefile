@@ -5,6 +5,9 @@ LDPATH = LD_LIBRARY_PATH=/usr/local/boost-1.58.0/lib:/usr/lib/alliance/lib
 
 all: main
 
+perTest: perTest.cpp adaboost.o image.o simpleClassifier.o loader.o feature.o
+	mpic++ perTest.cpp adaboost.o image.o simpleClassifier.o loader.o feature.o -o perTest
+
 main: image.o feature.o main.cpp classifier.o simpleClassifier.o adaboost.o loader.o
 	mpic++ main.cpp classifier.o image.o feature.o simpleClassifier.o adaboost.o loader.o -o main
 

@@ -35,5 +35,8 @@ int getfnMPI(vector<Image>&imgs, vector<int> &results,int start,int end);
 Given a threshhold theta and test set, calculate the coordinate of the prediction result in ROC graph
 --------------------------------------------------*/
 pair<double,double>  evaluate(vector<Image> &imgs,vector<SimpleClassifier> & strong, vector<double>&alpha,double theta);
+<<<<<<< HEAD
 
 void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<double>&alpha);
+=======
+>>>>>>> fdc3980502c7536327a9c7f795c4bcd89f666091

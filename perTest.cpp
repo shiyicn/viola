@@ -1,6 +1,7 @@
 #include "perTest.hpp"
 #include <mpi.h>
 #include "adaboost.hpp"
+#include "loader.hpp"
 
 const double theta_start = -1.0;
 const double theta_end = 1.0;
@@ -175,22 +176,28 @@ int main(int argc, char** argv) {
 
 	int numtasks, taskid;
 	MPI_Status status;
-	
+
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
 	MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
-
-    vector<Image> testSet;
-
-    load_images(testSet,"test/pos/");
-    load_images(testSet,"test/neg/");
+	
+	vector<Image> testSet;
+	
+	cout<<" goint to load images"<<endl;
+	load_images(testSet,"val/pos/", 0, 50);
+	load_images(testSet,"val/neg/", 0, 50);
+	cout<<" load finished"<<endl;
 
     //end loading images
 	
 	//image amount
+<<<<<<< HEAD
 	/*int nums = images.size();
+=======
+	int nums = testSet.size();
+>>>>>>> fdc3980502c7536327a9c7f795c4bcd89f666091
 	//image row nums
-	int cols = images[0].getImageData()[0].size();
+	int cols = testSet[0].getImageData()[0].size();
 	
 	//store all (x, w) in couples
 	vector<pair<int, int> > couples;
@@ -202,11 +209,34 @@ int main(int argc, char** argv) {
 
     //size of set (x, w)
 	int sz = couples.size();
-	if (taskid == root){
+	/*if (taskid == root){
 		cout<<"Size of all images : "<<nums<<endl;
 		cout<<"Size of Image : "<<images[0].getImageData().size()<<" , "<<images[0].getImageData()[0].size()<<endl;
 		cout<<"Size of all couples : "<<sz<<endl;
 	}
+	int inte = sz/numtasks;
+	if(sz/numtasks !=0) inte +=1;
+	int start = taskid * inte;
+	int end = ((start+inte)>sz)?sz:(start+inte);
+	
+	cout<<"Taskid : "<<taskid<<" computes from line "<<start<<" to "<<end<<endl;
+	for (int i=0; i<nums; i+=1){
+			//compute features from start to end
+			testSet[i].calIntegral();
+			testSet[i].calFeatureByLines(start, end, couples);
+		}
+	
+	int szlocal = testSet[0].getFeatureVector().size();
+		cout<<"Local features size : "<<szlocal<<endl;
+	
+	vector<double>alpha;
+	vector<SimpleClassifier> strongs;
+	loadClassifier(strongs,alpha);
+	pair<double,double> perfor = evaluate(testSet,strongs,alpha,theta);
+	if(taskid == 0){
+		cout<<"Test performance : false positive rate: "<<perfor.first<<" true positive rate : "<<perfor.second<<endl;
+	}
+<<<<<<< HEAD
     int inte = sz/numtasks;
     if(sz/numtasks !=0) inte +=1;
     int start = taskid * inte;
@@ -233,6 +263,7 @@ int main(int argc, char** argv) {
         cout<<"ROC performance calculation finished"<<endl;
     }
     MPI_Finalize();
+>>>>>>> fdc3980502c7536327a9c7f795c4bcd89f666091
 
 	
 

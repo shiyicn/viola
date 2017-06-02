@@ -16,21 +16,25 @@ double errCal(Image & img,SimpleClassifier & classifier){
     return (classifier.predictByImage(img)==img.getImageClass())?0.0:1.0;
 }
 
-void getBestClassifier(double *lambda, vector<Image>& valSet, vector<SimpleClassifier> &classifiers, SimpleClassifier & best,double err){
+void getBestClassifier(double *lambda, vector<Image>& valSet, vector<SimpleClassifier> &classifiers, SimpleClassifier & best,double *err){
     double minErr = numeric_limits<double>::infinity();
     int index=0;
     for(int i=0;i<classifiers.size();i++){
         double errCur = 0.0;
-        for(int j=0;i<valSet.size();i++){
-            errCur += lambda[j]*errCal(valSet[j],classifiers[j]);
+        for(int j=0;j<valSet.size();j++){
+		//cout<<"image class: "<<valSet[j].getImageClass()<<endl;
+            errCur += lambda[j]*errCal(valSet[j],classifiers[i]);
+		//cout<<" current locerr: "<<errCur<<endl;
         }
-        if(err < minErr){
+        if(errCur < minErr){
             index = i;
             minErr = errCur;
+
         }
     }
     best = classifiers[index];
-    err = minErr;
+    *err = minErr;
+	//cout<<"min err: "<<minErr<<endl;
 }
 
 int indexLocal2Global(int localIndex, int rank, int size){
@@ -60,6 +64,7 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
 
     for(int i=0;i<valSet.size();i++){               //initialize the weights
         lambda[i] = weightInit;
+	//cout<<"Initial lambda : ------"<<i<<" ----- "<<lambda[i]<<endl;
     }
 
     for(int i=0;i<N;i++){
@@ -68,11 +73,13 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
         double alpha;
         double locErr;
         struct error {double value; int index;} errLocal,errGlobal;               //get the best classifier in this round and the rank of processus which contain this classifier
-        getBestClassifier(lambda,valSet,weaks,best,locErr);
+        getBestClassifier(lambda,valSet,weaks,best,&locErr);
         cout<<"Round "<<i<<" -- The best of classifier in processus "<<rank<<" is calculated\n";
+	//cout<<"And the local err is : "<<locErr<<endl;
         errLocal.value = locErr;
         errLocal.index = rank;
         MPI_Reduce(&errLocal,&errGlobal,1,MPI_DOUBLE_INT,MPI_MINLOC,0, MPI_COMM_WORLD);
+	//cout<<"The best classifier rank: "<<errGlobal.index<<" and the err value: "<<errGlobal.value<<endl;
         //**
         //not finished: 1,root brocast the id of the processus which have the best classifier in this round
         //              2,the processus which have the best classifier update the lambda and brocast to the other processus 
@@ -85,13 +92,12 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
             alpha = (1.0-locErr)/locErr;
             alpha = log(alpha) / 2.0;
             cout<<"The classifier chosed get error "<<locErr<<endl;;
-            cout<<"The local alpha caculated is "<<alpha<<endl;
-            cout<<"Valset size: "<<valSet.size()<<endl;
+            cout<<"The local alpha caculated is "<<alpha<<"\nValset size: "<<valSet.size()<<endl;
             for(int i=0;i<valSet.size();i++){
                 double term = valSet[i].getImageClass()*alpha;
                 term *=best.predictByImage(valSet[i]);
                 lambda[i] *= exp(-term);
-                cout<<"Processus "<<rank<<" computed lambda "<<i<<" : "<<lambda[i]<<endl;
+               // cout<<"Processus "<<rank<<" computed lambda "<<i<<" : "<<lambda[i]<<endl;
             }
             cout<<"Processus "<<rank<<" updated lamda\n";
 	    double t1 = best.getW0();

@@ -13,7 +13,7 @@
 #include "adaboost.hpp"
 
 const double epsilon = 0.01;
-const double precision = 0.01;
+const double precision = 0.1;
 const int strongSize = 10;
 
 using namespace std;
@@ -36,10 +36,10 @@ int main(int argc, char** argv) {
 	vector<Image> images;
 	vector<Image> valSet;
 
-	load_images(valSet,"val/pos/", 0, 10);
-	load_images(valSet,"val/neg/", 0, 10);
-	load_images(images,"train/pos/", 0, 10);
-	load_images(images, "train/neg/", 0, 10);
+	load_images(valSet,"val/pos/", 0, 50);
+	load_images(valSet,"val/neg/", 0, 50);
+	load_images(images,"train/pos/", 0, 50);
+	load_images(images, "train/neg/", 0, 50);
 
 	cout<<"valset size: "<<valSet.size()<<endl;
 	cout<<"trainset size: "<<images.size()<<endl;
@@ -94,6 +94,14 @@ int main(int argc, char** argv) {
  		images[i].calIntegral();
  		images[i].calFeatureByLines(start, end, couples);
  	}
+	for (int i=0; i<valSet.size(); i+=1){
+		valSet[i].calIntegral();
+		valSet[i].calFeatureByLines(start, end, couples);
+// 		for (int j = 10; j<valSet[i].getFeatureVector().size(); j+=20){
+// 			double x = valSet[i].getFeatureVector()[j].getValue();
+// 			cout<<x<<endl;
+// 		}
+	}
 	int szlocal = images[0].getFeatureVector().size();
 	cout<<"Local features size : "<<szlocal<<endl;
 
@@ -105,9 +113,9 @@ int main(int argc, char** argv) {
 
 	vector<SimpleClassifier> cs;
 	getAllWeakClassifiers(images,epsilon,precision,cs);
-	for(int i=0;i<cs.size();i++){
+	/*for(int i=0;i<cs.size();i++){
 		cout<<"weakclassifier "<<i<<" "<<cs[i].toString()<<endl;
-	}
+	}*/
 
 	cout<<"Processus "<<taskid<<" got all the weak classifiers"<<endl;
 	cout<<"To compute the strong classifier..."<<endl;
