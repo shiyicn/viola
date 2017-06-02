@@ -14,4 +14,10 @@ struct Position{        //the coordinate of the upleft point
     ushort y;
 };
 
+struct ROC{
+    double theta;
+    double fpr;
+    double tpr;
+};
+
 #endif

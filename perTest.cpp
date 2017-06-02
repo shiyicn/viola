@@ -136,19 +136,23 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
     int TP,FP,TN,FN;
+    int gTP,gFP,gTN,gFN;
 
     int num = imgs.size()/size;
     if((imgs.size() % size)!=0) num+=1;
     int start = num * rank;
     int end = ((start+num)>imgs.size())?imgs.size():(start + num);
+    cout<<"Processus "<<rank<<" calcul images from "<<start<<" to "<<end<<endl;
     for(int i=start;i<end;i++){
         imgs[i].initialize();
         preValue.push_back(predictImage(imgs[i],strong,alpha)); 
     }
+    cout<<"Processus "<<rank<<" feature calcul finished"<<endl;
 
     //compute the roc point coordinate and save
-    ofstream myfile;
-    myfile.open("result/testPerf.txt");
+    
+    vector<ROC> perf;
+    double fpr,tpr;
     for(double theta=theta_start;theta<theta_end;theta = theta + theta_step){
         for(int i=0;i<preValue.size();i++){
             if(preValue[i]>=theta) result.push_back(1);
@@ -158,13 +162,28 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
         FP = getfpMPI(imgs,result,start,end);
         TN = gettnMPI(imgs,result,start,end);
         FN = getfnMPI(imgs,result,start,end);
-        double fpr = (double)FP/(FP+TN);
-        double tpr = (double)TP/(TP+FN);
-        myfile<<theta<<'\t'<<fpr<<'\t'<<tpr<<'\n';
+        MPI_Reduce(&TP, &gTP, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&FP, &gFP, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&TN, &gTN, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&FN, &gFN, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+        if(rank==0){
+            fpr = (double)gFP/(gFP+gTN);
+            tpr = (double)gTP/(gTP+gFN);
+            ROC t = {theta,fpr,tpr};
+            perf.push_back(t);
+            cout<<"Theta "<<theta<<" calcul completed"<<endl;
+        }
+        
         result.clear();
     }
-    myfile.close();
-    
+    if(rank==0){
+            ofstream myfile;
+            myfile.open("result/testPerf.txt");
+            for(int i=0;i<perf.size();i++){
+                myfile<<theta<<'\t'<<fpr<<'\t'<<tpr<<'\n';
+            }          
+            myfile.close();
+    }    
 }
 
 int main(int argc, char** argv) {
@@ -190,8 +209,6 @@ int main(int argc, char** argv) {
 
     //end loading images
 	
-	//image amount
-<<<<<<< HEAD
 	/*int nums = images.size();
 =======
 	int nums = testSet.size();
@@ -255,6 +272,7 @@ int main(int argc, char** argv) {
     vector<double>alpha;
     vector<SimpleClassifier> strongs;
     loadClassifier(strongs,alpha);
+    cout<<"Strong classifier load success, to compute roc performance..."<<endl;
     evaluateROC(testSet,strongs,alpha);
     /*if(taskid == 0){
         cout<<"Test performance : false positive rate: "<<perfor.first<<" true positive rate : "<<perfor.second<<endl;
@@ -263,7 +281,6 @@ int main(int argc, char** argv) {
         cout<<"ROC performance calculation finished"<<endl;
     }
     MPI_Finalize();
->>>>>>> fdc3980502c7536327a9c7f795c4bcd89f666091
 
 	
 
