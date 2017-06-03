@@ -61,6 +61,8 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     double *lambda = new double[valSet.size()];
     double weightInit = 1.0/(double)valSet.size();
+    ofstream myfile;
+    if (rank == 0) {myfile.open("result/strongclassifier.txt");}
 
     for(int i=0;i<valSet.size();i++){               //initialize the weights
         lambda[i] = weightInit;
@@ -136,10 +138,16 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
             alphas.push_back(alpha);
             cout<<"The global err got is "<<errGlobal.value<<endl;
             cout<<"The alpha got for this round is "<<alpha<<endl;
+            //save best weak classifier in this round
+            myfile<<alpha<<' '<<w0<<' '<<w1<<' '<<index<<endl;
         }
         MPI_Bcast(lambda,valSet.size(),MPI_DOUBLE,errGlobal.index,MPI_COMM_WORLD);
         cout<<"Processus "<<errGlobal.index<<" brocasted lambda to all the others processus\n";
         MPI_Barrier(MPI_COMM_WORLD);
+    }
+    
+    if (rank == 0) {
+        myfile.close();
     }
     delete []lambda;
 }

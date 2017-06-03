@@ -125,7 +125,7 @@ int main(int argc, char** argv) {
 	strongClassifier(valSet,cs,strong,alpha,strongSize);
 	cout<<"Stong classifier compute completed"<<endl;
 	if(taskid==0){
-		saveClassifier(strong,alpha);
+		//saveClassifier(strong,alpha);
 		cout<<"Strong classifier saved"<<endl;
 	}
 	
