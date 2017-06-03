@@ -235,8 +235,8 @@ int main(int argc, char** argv) {
 	vector<Image> testSet;
 	
 	cout<<" going to load images"<<endl;
-	load_images(testSet,"test/pos/");
-	load_images(testSet,"test/neg/", 0, 2000);
+	//load_images(testSet,"test/pos/");
+	load_images(testSet,"test/neg/", 0, 1);
 	cout<<" load finished"<<endl;
 
     //end loading images
@@ -305,7 +305,8 @@ int main(int argc, char** argv) {
     vector<SimpleClassifier> strongs;
     loadClassifier(strongs,alpha);
     cout<<"Strong classifier load success, to compute roc performance..."<<endl;
-    evaluateROC(testSet,strongs,alpha);
+    getStrongInfo(testSet[0],strong,10);
+    //evaluateROC(testSet,strongs,alpha);
     /*if(taskid == 0){
         cout<<"Test performance : false positive rate: "<<perfor.first<<" true positive rate : "<<perfor.second<<endl;
     }*/
