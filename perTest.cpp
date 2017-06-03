@@ -172,7 +172,7 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
 
     //compute the roc point coordinate and save
     
-    vector<ROC> perf;
+    /*vector<ROC> perf;
     double fpr,tpr;
     for(double theta=theta_start;theta<theta_end;){
         for(int i=0;i<preValue.size();i++){
@@ -214,7 +214,7 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
                 myfile<<perf[i].theta<<' '<<perf[i].fpr<<' '<<perf[i].tpr<<'\n';
             }          
             myfile.close();
-    }    
+    }    */
 }
 
 int main(int argc, char** argv) {
