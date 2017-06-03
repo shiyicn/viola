@@ -50,7 +50,6 @@ double  predictImage(Image & img, vector<SimpleClassifier> &strong, vector<doubl
         term +=alpha[i];
     }
     return pre/term;
-
 }
 
 
@@ -162,13 +161,14 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     cout<<"Processus "<<rank<<" calcul images from "<<start<<" to "<<end<<endl;
     for(int i=start;i<end;i++){
         imgs[i].initialize();
-        cout<<"Image "<<i<<" initiaized"<<endl;
+       // cout<<"Image "<<i<<" initiaized"<<endl;
         preValue.push_back(predictImage(imgs[i],strong,alpha)); 
     }
     cout<<"Processus "<<rank<<" feature calcul finished"<<endl;
 
     if(rank==0){
-        //getStrongInfo(imgs[0],strong,10);
+        getStrongInfo(imgs[0],strong,10);
+        cout<<"Strong classifier info saved"<<endl;
     }
 
     //compute the roc point coordinate and save
