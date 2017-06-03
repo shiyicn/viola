@@ -131,6 +131,18 @@ int getfnMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
     FN = calFN(imgs,result);
     return make_pair((double)FP/(FP+TN),(double)TP/(TP+FN));
 }*/
+//Get the information of the N first classifiers 
+void getStrongInfo(Image & img,vector<SimpleClassifier> &strong, int num){
+    ofstream myfile;
+    myfile.open("result/strongInfo.txt");
+    for(int i=0;i<num;i++){
+        int index = strong[i].getIndex();
+        Position p = img.getFeatureVector()[index].getPosition();
+        Shape s = img.getFeatureVector()[index].getShape();
+        myfile<<"Position:("<<p.x<<','<<p.y<<')'<<" Shape:("<<s.width<<','<<s.height<<')'<<endl;
+    }
+    myfile.close();
+}
 
 void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<double>&alpha){
     vector<double>preValue;
@@ -148,10 +160,13 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     cout<<"Processus "<<rank<<" calcul images from "<<start<<" to "<<end<<endl;
     for(int i=start;i<end;i++){
         imgs[i].initialize();
-	cout<<"image "<<i<<"predict result is "<<predictImage(imgs[i],strong,alpha)<<endl;
         preValue.push_back(predictImage(imgs[i],strong,alpha)); 
     }
     cout<<"Processus "<<rank<<" feature calcul finished"<<endl;
+
+    if(rank==0){
+        getStrongInfo(imgs[0],strong,10);
+    }
 
     //compute the roc point coordinate and save
     
@@ -160,12 +175,10 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     for(double theta=theta_start;theta<theta_end;){
         for(int i=0;i<preValue.size();i++){
             if(preValue[i]>=theta){
-		 result.push_back(1);
-		cout<<"image "<<i+start<<" predict result "<<1<<endl;
+		    result.push_back(1);
 		}
             else {
 		result.push_back(-1); 
-		cout<<"image "<<i+start<<" predict result "<<-1<<endl;
 		}
         }
         TP = gettpMPI(imgs,result,start,end);
