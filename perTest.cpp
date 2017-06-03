@@ -139,7 +139,7 @@ void getStrongInfo(Image & img,vector<SimpleClassifier> &strong, int num){
         int index = strong[i].getIndex();
         Position p = img.getFeatureVector()[index].getPosition();
         Shape s = img.getFeatureVector()[index].getShape();
-        Type t = mg.getFeatureVector()[index].getType();
+        Type t = img.getFeatureVector()[index].getType();
 
         myfile<<"Position:("<<p.x<<','<<p.y<<')'<<" Shape:("<<s.width<<','<<s.height<<')'<<"Type:"<<t<<endl;
     }
