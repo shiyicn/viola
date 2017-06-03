@@ -139,7 +139,9 @@ void getStrongInfo(Image & img,vector<SimpleClassifier> &strong, int num){
         int index = strong[i].getIndex();
         Position p = img.getFeatureVector()[index].getPosition();
         Shape s = img.getFeatureVector()[index].getShape();
-        myfile<<"Position:("<<p.x<<','<<p.y<<')'<<" Shape:("<<s.width<<','<<s.height<<')'<<endl;
+        Type t = mg.getFeatureVector()[index].getType();
+
+        myfile<<"Position:("<<p.x<<','<<p.y<<')'<<" Shape:("<<s.width<<','<<s.height<<')'<<"Type:"<<t<<endl;
     }
     myfile.close();
 }
@@ -165,7 +167,7 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     cout<<"Processus "<<rank<<" feature calcul finished"<<endl;
 
     if(rank==0){
-        getStrongInfo(imgs[0],strong,10);
+        //getStrongInfo(imgs[0],strong,10);
     }
 
     //compute the roc point coordinate and save
