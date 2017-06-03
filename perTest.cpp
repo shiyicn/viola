@@ -162,6 +162,7 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     cout<<"Processus "<<rank<<" calcul images from "<<start<<" to "<<end<<endl;
     for(int i=start;i<end;i++){
         imgs[i].initialize();
+        cout<<"Image "<<i<<" initiaized"<<endl;
         preValue.push_back(predictImage(imgs[i],strong,alpha)); 
     }
     cout<<"Processus "<<rank<<" feature calcul finished"<<endl;
