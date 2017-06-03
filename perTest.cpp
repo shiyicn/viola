@@ -134,6 +134,7 @@ int getfnMPI(vector<Image>&imgs, vector<int> &results,int start,int end){
 void getStrongInfo(Image & img,vector<SimpleClassifier> &strong, int num){
     ofstream myfile;
     myfile.open("result/strongInfo.txt");
+    img.initialize();
     for(int i=0;i<num;i++){
         int index = strong[i].getIndex();
         Position p = img.getFeatureVector()[index].getPosition();
