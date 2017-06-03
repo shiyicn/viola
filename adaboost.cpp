@@ -99,14 +99,21 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
                 lambda[i] *= exp(-term);
                // cout<<"Processus "<<rank<<" computed lambda "<<i<<" : "<<lambda[i]<<endl;
             }
+            double lambda_sum = 0.0;
+            for(int i=0;i<valSet.size();i++){
+                lambda_sum +=lambda[i];
+            }
+            for(int i=0;i<valSet.size();i++){
+                lambda[i] /=lambda_sum;
+            }
             cout<<"Processus "<<rank<<" updated lamda\n";
-	    double t1 = best.getW0();
+	        double t1 = best.getW0();
             MPI_Send(&t1,1,MPI_DOUBLE,0,Class_W0,MPI_COMM_WORLD);
             cout<<"Processus "<<rank<<" sent w0 of the best classifier to 0\n";
-	    double t2 = best.getW1();
+	        double t2 = best.getW1();
             MPI_Send(&t2,1,MPI_DOUBLE,0,Class_W1,MPI_COMM_WORLD);
             cout<<"Processus "<<rank<<" sent w1 of the best classifier to 0\n";
-	    int index_t = best.getIndex();
+	        int index_t = best.getIndex();
             MPI_Send(&index_t,1,MPI_INT,0,Class_Index,MPI_COMM_WORLD);
             cout<<"Processus "<<rank<<" sent index of the best classifier to 0\n";
 
