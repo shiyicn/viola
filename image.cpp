@@ -93,6 +93,8 @@ void Image::calFeatureByLines(int start, int end, vector<pair<int, int> > &coupl
       }
     }
   }
+  this->data.clear();
+  this->integral.clear();
 }
 
 void Image::initialize(){

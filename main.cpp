@@ -36,10 +36,10 @@ int main(int argc, char** argv) {
 	vector<Image> images;
 	vector<Image> valSet;
 
-	load_images(valSet,"val/pos/", 0, 50);
-	load_images(valSet,"val/neg/", 0, 50);
-	load_images(images,"train/pos/", 0, 50);
-	load_images(images, "train/neg/", 0, 50);
+	load_images(valSet,"val/pos/");
+	load_images(valSet,"val/neg/", 0, 817);
+	load_images(images,"train/pos/");
+	load_images(images, "train/neg/", 0, 1500);
 
 	cout<<"valset size: "<<valSet.size()<<endl;
 	cout<<"trainset size: "<<images.size()<<endl;

@@ -91,7 +91,7 @@ int main(int argc, char** argv){
     // examine calling command line
     int length = 2;
     //char* folds[] = {"test/pos/", "test/neg/", "val/pos/", "val/neg/", "train/pos/", "train/neg/"};
-    char* folds[] = {"test/pos/", "test/neg/"};
+    char* folds[] = {"train/pos/", "train/neg/"};
     for (int index = 0; index < length; index += 1){
         cout<<"load images from : "<<folds[index]<<endl;
         int path_len = strlen(folds[index]);
