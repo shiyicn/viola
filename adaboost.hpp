@@ -21,7 +21,7 @@ Get the N best weak classifiers to form a strong classifier
 # alpha : the alpha coefficient got 
 # N : Number of simpleclassifiers 
 ----------------------------------------------------------*/
-void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, vector<SimpleClassifier>&strong, vector<double> &alpha, int N);
+void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, int N);
 
 /*---------------------------------------------------------
 Caculate the predict error of a classifier on some image

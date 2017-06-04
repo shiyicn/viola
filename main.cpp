@@ -12,9 +12,9 @@
 #include "classifier.hpp"
 #include "adaboost.hpp"
 
-const double epsilon = 0.01;
-const double precision = 0.1;
-const int strongSize = 10;
+const double epsilon = 0.001;
+const double precision = 0.01;
+const int strongSize = 200;
 
 using namespace std;
 
@@ -70,20 +70,16 @@ int main(int argc, char** argv) {
 	
 	// the root decides how may rows will be handled by each of the
 	// processors, and MPI_Scatters its decision
-	unsigned short sendbuf[numtasks];
+	//unsigned short sendbuf[numtasks];
 	unsigned short interval = (ushort) sz/numtasks;
 	if(sz%numtasks != 0) interval += 1;
-	for(unsigned short i=0; i<numtasks; i+=1){
+	/*for(unsigned short i=0; i<numtasks; i+=1){
 		sendbuf[i] = i * interval;
-	}
-	
-	unsigned short start = -1;
-	unsigned short end = -1;
-	
-	//send start index for every processor
-	MPI_Scatter(&sendbuf, 1, MPI_UNSIGNED_SHORT, &start, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
+	}*/
+		
 	//get end index according to start index and interval size
-	end = start + interval;
+	unsigned short start = taskid*interval;
+	unsigned short end = start + interval;
 	if (end > sz) end = sz;
 	
 	cout<<"Taskid : "<<taskid<<" computes from line "<<
@@ -120,9 +116,9 @@ int main(int argc, char** argv) {
 	cout<<"Processus "<<taskid<<" got all the weak classifiers"<<endl;
 	cout<<"To compute the strong classifier..."<<endl;
 
-	vector<SimpleClassifier> strong;
-	vector<double> alpha;
-	strongClassifier(valSet,cs,strong,alpha,strongSize);
+	//vector<SimpleClassifier> strong;
+	//vector<double> alpha;
+	strongClassifier(valSet,cs,strongSize);
 	cout<<"Stong classifier compute completed"<<endl;
 	if(taskid==0){
 		//saveClassifier(strong,alpha);

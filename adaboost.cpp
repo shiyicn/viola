@@ -55,7 +55,7 @@ pair<int,int> indexGlobal2Local(int globalIndex, int size){
 }
 
 
-void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, vector<SimpleClassifier>&strong, vector<double> &alphas, int N){
+void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, int N){
     int rank,nProcs;
     MPI_Comm_size(MPI_COMM_WORLD,&nProcs);
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
@@ -132,10 +132,10 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, ve
             MPI_Recv(&index,1,MPI_INT,errGlobal.index,Class_Index,MPI_COMM_WORLD, &status);
             cout<<"Processus 0 recieved index from "<<errGlobal.index<<endl;
             index = indexLocal2Global(index,errGlobal.index,nProcs);
-            strong.push_back(SimpleClassifier(w0,w1,index));
+            //strong.push_back(SimpleClassifier(w0,w1,index));
             alpha = (1.0-errGlobal.value)/errGlobal.value;
             alpha = log(alpha) / 2.0;
-            alphas.push_back(alpha);
+            //alphas.push_back(alpha);
             cout<<"The global err got is "<<errGlobal.value<<endl;
             cout<<"The alpha got for this round is "<<alpha<<endl;
             //save best weak classifier in this round
