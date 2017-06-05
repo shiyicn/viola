@@ -3,11 +3,11 @@
 #include "adaboost.hpp"
 #include "loader.hpp"
 
-const double theta_start = -0.02;
-const double theta_inf = 0.04;
-const double theta_end = 1.0;
-const double theta_sup = 0.6;
-const double theta_step_small = 0.001;
+const double theta_start = -0.04;
+const double theta_inf = 0.025;
+const double theta_end = 0.12;
+const double theta_sup = 0.08;
+const double theta_step_small = 0.0005;
 const double theta_step_big = 0.01;
 
 double predictMPI(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha){
