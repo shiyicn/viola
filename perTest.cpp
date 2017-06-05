@@ -5,10 +5,10 @@
 
 const double theta_start = -0.02;
 const double theta_inf = 0.025;
-const double theta_end = 0.1;
-const double theta_sup = 0.06;
-const double theta_step_small = 0.0001;
-const double theta_step_big = 0.005;
+const double theta_end = 1.0;
+const double theta_sup = 0.6;
+const double theta_step_small = 0.001;
+const double theta_step_big = 0.01;
 
 double predictMPI(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha){
     double localPre=0.0;
