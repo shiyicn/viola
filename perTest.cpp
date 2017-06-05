@@ -167,14 +167,14 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     }
     cout<<"Processus "<<rank<<" feature calcul finished"<<endl;
 
-    if(rank==0){
+    /*if(rank==0){
         getStrongInfo(imgs[0],strong,10);
         cout<<"Strong classifier info saved"<<endl;
-    }
+    }*/
 
     //compute the roc point coordinate and save
     
-    /*vector<ROC> perf;
+    vector<ROC> perf;
     double fpr,tpr;
     for(double theta=theta_start;theta<theta_end;){
         for(int i=0;i<preValue.size();i++){
@@ -216,7 +216,7 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
                 myfile<<perf[i].theta<<' '<<perf[i].fpr<<' '<<perf[i].tpr<<'\n';
             }          
             myfile.close();
-    }    */
+    }    
 }
 
 int main(int argc, char** argv) {
@@ -236,78 +236,15 @@ int main(int argc, char** argv) {
 	vector<Image> testSet;
 	
 	cout<<" going to load images"<<endl;
-	//load_images(testSet,"test/pos/");
-	load_images(testSet,"test/neg/", 0, 1);
+	load_images(testSet,"test/pos/");
+	load_images(testSet,"test/neg/", 0, 1500);
 	cout<<" load finished"<<endl;
-
-    //end loading images
-	
-	/*int nums = images.size();
-=======
-	int nums = testSet.size();
->>>>>>> fdc3980502c7536327a9c7f795c4bcd89f666091
-	//image row nums
-	int cols = testSet[0].getImageData()[0].size();
-	
-	//store all (x, w) in couples
-	vector<pair<int, int> > couples;
-	for (int x = 0; x <= (cols-widthInit); x += incrementP){
-		for (int w = widthInit; w <= (cols-x); w += incrementS){
-			couples.push_back(make_pair(x, w));
-		}
-	}
-
-    //size of set (x, w)
-	int sz = couples.size();
-	/*if (taskid == root){
-		cout<<"Size of all images : "<<nums<<endl;
-		cout<<"Size of Image : "<<images[0].getImageData().size()<<" , "<<images[0].getImageData()[0].size()<<endl;
-		cout<<"Size of all couples : "<<sz<<endl;
-	}
-	int inte = sz/numtasks;
-	if(sz/numtasks !=0) inte +=1;
-	int start = taskid * inte;
-	int end = ((start+inte)>sz)?sz:(start+inte);
-	
-	cout<<"Taskid : "<<taskid<<" computes from line "<<start<<" to "<<end<<endl;
-	for (int i=0; i<nums; i+=1){
-			//compute features from start to end
-			testSet[i].calIntegral();
-			testSet[i].calFeatureByLines(start, end, couples);
-		}
-	
-	int szlocal = testSet[0].getFeatureVector().size();
-		cout<<"Local features size : "<<szlocal<<endl;
-	
-	vector<double>alpha;
-	vector<SimpleClassifier> strongs;
-	loadClassifier(strongs,alpha);
-	pair<double,double> perfor = evaluate(testSet,strongs,alpha,theta);
-	if(taskid == 0){
-		cout<<"Test performance : false positive rate: "<<perfor.first<<" true positive rate : "<<perfor.second<<endl;
-	}
-<<<<<<< HEAD
-    int inte = sz/numtasks;
-    if(sz/numtasks !=0) inte +=1;
-    int start = taskid * inte;
-    int end = ((start+inte)>sz)?sz:(start+inte);
-
-    cout<<"Taskid : "<<taskid<<" computes from line "<<start<<" to "<<end<<endl;
-    for (int i=0; i<nums; i+=1){
- 		//compute features from start to end
- 		images[i].calIntegral();
- 		images[i].calFeatureByLines(start, end, couples);
- 	}
-
-    int szlocal = images[0].getFeatureVector().size();
-	cout<<"Local features size : "<<szlocal<<endl;*/
-
     vector<double>alpha;
     vector<SimpleClassifier> strongs;
     loadClassifier(strongs,alpha);
     cout<<"Strong classifier load success, to compute roc performance..."<<endl;
-    getStrongInfo(testSet[0],strongs,20);
-    //evaluateROC(testSet,strongs,alpha);
+    //getStrongInfo(testSet[0],strongs,20);
+    evaluateROC(testSet,strongs,alpha);
     /*if(taskid == 0){
         cout<<"Test performance : false positive rate: "<<perfor.first<<" true positive rate : "<<perfor.second<<endl;
     }*/
