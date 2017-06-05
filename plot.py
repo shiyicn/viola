@@ -8,8 +8,8 @@ with open("result/testPerf.txt") as f:
 data = data.split('\n')
 
 theta = [row.split(' ')[0] for row in data]
-x = [row.split(' ')[0] for row in data]
-y = [row.split(' ')[1] for row in data]
+x = [row.split(' ')[1] for row in data]
+y = [row.split(' ')[2] for row in data]
 
 fig = plt.figure()
 
@@ -23,5 +23,5 @@ ax1.plot(x,y, c='r')
 
 leg = ax1.legend()
 
-fig.savefig('roc.pdf')
+fig.savefig('result/roc.png',dpi=300)
 plt.show()
