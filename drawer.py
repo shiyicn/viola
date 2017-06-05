@@ -7,7 +7,7 @@ def draw(x, y, w, h, fig, color):
     ax1 = fig.add_subplot(111, aspect='equal')
     ax1.add_patch(
         patches.Rectangle(
-            (x, y),   # (x,y)
+            (x, 1-y-h),   # (x,y)
             w,          # width
             h,          # height
             facecolor = color,
@@ -64,7 +64,7 @@ def draw_rect_by_type(x, y, w, h, wi, hi, t, path):
         print(t)
 
 #open files
-with open("strongInfo.txt") as f:
+with open("result/strongInfo.txt") as f:
     data = f.read()
 
 data = data.split('\n')
@@ -79,4 +79,4 @@ wi = 112
 hi = 92
 
 for i in range(0, len(x)):
-    draw_rect_by_type(x[i], y[i], w[i], h[i], wi, hi, t[i], str(i)+".pdf")
+    draw_rect_by_type(x[i], y[i], w[i], h[i], wi, hi, t[i], "result/"+str(i)+".png")
