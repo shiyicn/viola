@@ -306,7 +306,7 @@ int main(int argc, char** argv) {
     vector<SimpleClassifier> strongs;
     loadClassifier(strongs,alpha);
     cout<<"Strong classifier load success, to compute roc performance..."<<endl;
-    getStrongInfo(testSet[0],strongs,10);
+    getStrongInfo(testSet[0],strongs,20);
     //evaluateROC(testSet,strongs,alpha);
     /*if(taskid == 0){
         cout<<"Test performance : false positive rate: "<<perfor.first<<" true positive rate : "<<perfor.second<<endl;

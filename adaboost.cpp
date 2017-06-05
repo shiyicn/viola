@@ -124,7 +124,7 @@ void strongClassifier(vector<Image> &valSet, vector<SimpleClassifier> &weaks, in
         if(rank == 0){
             double w0,w1;
             int index;
-	    MPI_Status status;
+	        MPI_Status status;
             MPI_Recv(&w0,1,MPI_DOUBLE,errGlobal.index,Class_W0,MPI_COMM_WORLD, &status);
             cout<<"Processus 0 recieved w0 from "<<errGlobal.index<<endl;
             MPI_Recv(&w1,1,MPI_DOUBLE,errGlobal.index,Class_W1,MPI_COMM_WORLD, &status);
@@ -186,7 +186,7 @@ void loadClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha){
             //double alpha,w_0,w_1;
             int index;
             vector<string> ret;
-	    string dlt = "\t";
+	    string dlt = " ";
             split(line, dlt, ret);
             alpha.push_back(strtod(ret[0].c_str(), NULL));
             strongs.push_back(SimpleClassifier(strtod(ret[1].c_str(), NULL),strtod(ret[2].c_str(), NULL),atoi(ret[3].c_str())));
