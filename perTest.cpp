@@ -4,11 +4,11 @@
 #include "loader.hpp"
 
 const double theta_start = -0.01;
-const double theta_inf = -0.007;
-const double theta_end = 0.015;
+const double theta_inf = -0.008;
+const double theta_end = 0.02;
 const double theta_sup = 0.008;
 const double theta_step_small = 0.0001;
-const double theta_step_big = 0.005;
+const double theta_step_big = 0.002;
 
 double predictMPI(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha){
     double localPre=0.0;
