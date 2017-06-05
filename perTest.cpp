@@ -3,7 +3,7 @@
 #include "adaboost.hpp"
 #include "loader.hpp"
 
-const double theta_start = -0.01;
+const double theta_start = -0.02;
 const double theta_inf = -0.008;
 const double theta_end = 0.02;
 const double theta_sup = 0.008;
