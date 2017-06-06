@@ -10,6 +10,7 @@ const double theta_sup = 0.08;
 const double theta_step_small = 0.0005;
 const double theta_step_big = 0.01;
 
+const int num = 50;
 double predictMPI(Image &img,vector<SimpleClassifier> & strong, vector<double>&alpha){
     double localPre=0.0;
     double localAlpha=0.0;
@@ -241,8 +242,8 @@ int main(int argc, char** argv) {
 	cout<<" load finished"<<endl;
     vector<double>alpha;
     vector<SimpleClassifier> strongs;
-    loadClassifier(strongs,alpha);
-    cout<<"Strong classifier load success, to compute roc performance..."<<endl;
+    loadClassifier(strongs,alpha,50);
+    cout<<"Strong classifier size: "<<strongs.size()<<" load success, to compute roc performance..."<<endl;
     //getStrongInfo(testSet[0],strongs,20);
     evaluateROC(testSet,strongs,alpha);
     /*if(taskid == 0){

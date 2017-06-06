@@ -177,11 +177,12 @@ void split(string& s, string& delim,vector<string>& ret)
     }  
 }  
 
-void loadClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha){
+void loadClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha,int num){
     string line;
     ifstream myfile("result/strongclassifier.txt");
     if(myfile.is_open())
     {
+        int n=0;
         while(getline(myfile,line)){
             //double alpha,w_0,w_1;
             int index;
@@ -190,6 +191,8 @@ void loadClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha){
             split(line, dlt, ret);
             alpha.push_back(strtod(ret[0].c_str(), NULL));
             strongs.push_back(SimpleClassifier(strtod(ret[1].c_str(), NULL),strtod(ret[2].c_str(), NULL),atoi(ret[3].c_str())));
+            n++;
+            if(n>num) break;
         }
         myfile.close();
     }

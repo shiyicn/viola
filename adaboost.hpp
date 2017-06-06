@@ -51,7 +51,7 @@ void saveClassifier(vector<SimpleClassifier>&strongs,vector<double>&alpha);
 /*----------------------------------------------------------
 Load the strong classifier from file 
 -----------------------------------------------------------*/
-void loadClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha);
+void loadClassifier(vector<SimpleClassifier>&strongs, vector<double>&alpha, int num);
 
 /*----------------------------------------------------------
 Exchange between globa lindex and local index for classifiers
