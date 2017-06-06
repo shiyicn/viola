@@ -3,13 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-def draw(x, y, w, h, fig, color):
+def draw(x_value, y_value, w_value, h_value, fig, color):
     ax1 = fig.add_subplot(111, aspect='equal')
     ax1.add_patch(
         patches.Rectangle(
-            (x, 1-y-h),   # (x,y)
-            w,          # width
-            h,          # height
+            (x_value, 1-y_value-h_value),   # (x,y)
+            w_value,          # width
+            h_value,          # height
             facecolor = color,
             edgecolor = "black"
         )
