@@ -212,7 +212,7 @@ void evaluateROC(vector<Image> &imgs,vector<SimpleClassifier> &strong, vector<do
     }
     if(rank==0){
             ofstream myfile;
-            myfile.open("result/testPerf.txt");
+            myfile.open("result/testPerf50.txt");
             for(int i=0;i<perf.size();i++){
                 myfile<<perf[i].theta<<' '<<perf[i].fpr<<' '<<perf[i].tpr<<'\n';
             }          
