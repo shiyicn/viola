@@ -2,7 +2,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = open("result/strongclassifier", "r") 
+#open files
+with open("result/strongclassifier.txt") as f:
+    data = f.read()
 
 data = data.split('\n')
 
